@@ -271,7 +271,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const brandName = document.getElementById("nav-brand-name");
     const brandSub = document.getElementById("nav-brand-sub");
 
-    const avatarSrc = profile.avatar || "assets/images/profile_1.jpg";
+    let avatarSrc = profile.avatar || "assets/images/profile_1.jpg?v=20261001";
+    if (avatarSrc === "assets/images/profile_1.jpg") {
+      avatarSrc = "assets/images/profile_1.jpg?v=20261001";
+    }
     if (brandAvatar) brandAvatar.src = avatarSrc;
     if (brandName) brandName.textContent = `${profile.nickname || ''} ${profile.name ? profile.name.split(" ")[1] || profile.name : ''}`;
     if (brandSub) brandSub.textContent = `${profile.major || ''} ${profile.university ? profile.university.replace("มหาวิทยาลัยเทคโนโลยีราชมงคลอีสาน", "มทร.อีสาน") : ''}`;
@@ -1649,7 +1652,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // -------------------------------------------------------------
-  // HIDDEN LOGIN SYSTEM (Ctrl + L + O)
+  // HIDDEN LOGIN SYSTEM (Ctrl + Alt + P)
   // -------------------------------------------------------------
 
   function setupHiddenLogin() {
@@ -1675,14 +1678,25 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let keysPressed = {};
     window.addEventListener("keydown", (e) => {
-      keysPressed[e.key.toLowerCase()] = true;
-      if (e.ctrlKey && keysPressed["l"] && keysPressed["o"]) {
+      const key = (e.key || "").toLowerCase();
+      keysPressed[key] = true;
+
+      // Primary shortcut: Ctrl + Alt + P (or Cmd + Alt + P on macOS)
+      const isCtrlOrCmd = e.ctrlKey || e.metaKey;
+      const isAlt = e.altKey;
+      const isP = key === "p" || e.code === "KeyP";
+
+      const isCtrlAltP = isCtrlOrCmd && isAlt && isP;
+      const isLegacyCtrlLO = e.ctrlKey && keysPressed["l"] && keysPressed["o"];
+
+      if (isCtrlAltP || isLegacyCtrlLO) {
         e.preventDefault();
         openLoginModal();
       }
     });
     window.addEventListener("keyup", (e) => {
-      delete keysPressed[e.key.toLowerCase()];
+      const key = (e.key || "").toLowerCase();
+      delete keysPressed[key];
     });
 
     if (footerTrigger) footerTrigger.addEventListener("click", openLoginModal);

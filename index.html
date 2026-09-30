@@ -61,7 +61,7 @@
   <header class="site-header">
     <div class="nav-container">
       <div class="brand" id="brand-home-btn" title="กลับสู่หน้าหลัก">
-        <img src="assets/images/profile_1.jpg" alt="Arocha Boonlue" class="brand-avatar" id="nav-brand-avatar">
+        <img src="assets/images/profile_1.jpg?v=20261001" alt="Arocha Boonlue" class="brand-avatar" id="nav-brand-avatar">
         <div class="brand-info">
           <span class="brand-name">
             <span id="nav-brand-name">บุ๋มบิ๋ม อโรชา</span>
@@ -158,7 +158,7 @@
         <div class="hero-visual">
           <div class="portrait-wrapper" id="hero-portrait-wrapper" title="คลิกหรือลากไฟล์ภาพมาวางเพื่อเปลี่ยนรูปโปรไฟล์">
             <div class="portrait-ring"></div>
-            <img src="assets/images/profile_1.jpg" alt="Arocha Boonlue" class="portrait-img" id="hero-avatar">
+            <img src="assets/images/profile_1.jpg?v=20261001" alt="Arocha Boonlue" class="portrait-img" id="hero-avatar">
             <div class="avatar-drop-overlay" id="hero-avatar-drop-overlay">
               <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.4rem; margin-bottom: 0.25rem;"></i>
               <span>คลิกหรือลากรูปมาวาง<br>เปลี่ยนโปรไฟล์</span>
@@ -237,7 +237,7 @@
         <!-- Profile Left Sidebar -->
         <aside class="profile-sidebar">
           <div style="position: relative; display: inline-block; width: 180px; height: 180px; margin: 0 auto 1.25rem;">
-            <img src="assets/images/profile_1.jpg" alt="Arocha Boonlue" class="profile-avatar-large" id="profile-page-avatar">
+            <img src="assets/images/profile_1.jpg?v=20261001" alt="Arocha Boonlue" class="profile-avatar-large" id="profile-page-avatar">
             <div class="avatar-drop-overlay" id="profile-avatar-drop-overlay" style="border-radius: var(--radius-md);" title="คลิกหรือลากไฟล์ภาพมาวางเพื่อเปลี่ยนรูปโปรไฟล์">
               <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.4rem; margin-bottom: 0.25rem;"></i>
               <span>คลิกหรือลากรูปมาวาง<br>เปลี่ยนรูป</span>
@@ -431,7 +431,7 @@
         <ul class="footer-nav-list">
           <li><i class="fa-solid fa-phone" style="color:var(--primary); margin-right: 0.35rem;"></i> <span id="footer-phone">0832482556</span></li>
           <li><i class="fa-solid fa-envelope" style="color:var(--primary); margin-right: 0.35rem;"></i> <span id="footer-email">arochaboonlue2047@gmail.com</span></li>
-          <li><i class="fa-solid fa-circle-info" style="color:var(--primary); margin-right: 0.35rem;"></i> โหมดล็อกอิน: กด <code>Ctrl + L + O</code></li>
+          <li><i class="fa-solid fa-circle-info" style="color:var(--primary); margin-right: 0.35rem;"></i> โหมดล็อกอิน: กด <code>Ctrl + Alt + P</code></li>
           <li style="margin-top: 0.65rem;">
             <button id="btn-footer-login" class="footer-login-btn login-btn-trigger" title="คลิกเพื่อเข้าสู่ระบบผู้ดูแล (Admin Login)">
               <i class="fa-solid fa-right-to-bracket"></i>
@@ -447,7 +447,7 @@
         &copy; 2026 Arocha Boonlue • Portfolio ครุศาสตร์อุตสาหกรรมไฟฟ้า มทร.อีสาน ขอนแก่น
       </div>
       <div>
-        <span id="footer-login-trigger" class="hidden-login-trigger" title="ล็อกอินจัดการเว็บ (Ctrl+L+O)">
+        <span id="footer-login-trigger" class="hidden-login-trigger" title="ล็อกอินจัดการเว็บ (Ctrl+Alt+P)">
           <i class="fa-solid fa-lock"></i>
         </span>
       </div>
@@ -455,7 +455,7 @@
   </footer>
 
   <!-- ========================================================
-       MODAL 1: Hidden Admin Login Modal (Triggered by Ctrl+L+O)
+       MODAL 1: Hidden Admin Login Modal (Triggered by Ctrl+Alt+P)
        ======================================================== -->
   <div id="modal-login" class="modal-overlay">
     <div class="modal-window">
@@ -596,7 +596,7 @@
           <div class="form-group">
             <label class="form-label">รูปถ่ายโปรไฟล์ (คลิกหรือลากวางไฟล์ภาพที่นี่)</label>
             <div class="dropzone" id="drawer-avatar-dropzone" style="padding: 1rem; margin-bottom: 0.5rem;">
-              <img id="edit-profile-avatar-preview" src="assets/images/profile_1.jpg" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin: 0 auto 0.5rem; display: block; border: 2px solid var(--primary);">
+              <img id="edit-profile-avatar-preview" src="assets/images/profile_1.jpg?v=20261001" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; object-position: center 20%; margin: 0 auto 0.5rem; display: block; border: 2px solid var(--primary);">
               <span style="font-size: 0.75rem; color: var(--text-muted);">คลิกหรือลากไฟล์ภาพมาวางเพื่อเปลี่ยนรูป</span>
               <input type="file" id="input-drawer-avatar" accept="image/*" style="display: none;">
             </div>

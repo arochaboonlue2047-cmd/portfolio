@@ -219,6 +219,7 @@ img {
   height: 42px;
   border-radius: 50%;
   object-fit: cover;
+  object-position: center 20%;
   border: 2px solid var(--primary);
   box-shadow: 0 0 10px var(--primary-glow);
   transition: transform var(--transition-bounce);
@@ -665,6 +666,7 @@ body.dark-mode .hero-tag {
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
+  object-position: center 20%;
   border: 4px solid var(--bg-surface);
   box-shadow: var(--shadow-lg);
   z-index: 2;
@@ -853,6 +855,7 @@ body.dark-mode .stat-badge {
   margin: 0 auto 1.25rem;
   border-radius: var(--radius-lg);
   object-fit: cover;
+  object-position: center 20%;
   border: 3px solid var(--border-strong);
   box-shadow: var(--shadow-md);
 }
