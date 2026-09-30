@@ -514,6 +514,7 @@
       <button class="drawer-nav-item" data-pane="pane-courses">รายวิชา</button>
       <button class="drawer-nav-item" data-pane="pane-activities">ผลงาน</button>
       <button class="drawer-nav-item" data-pane="pane-upload">อัปโหลดไฟล์</button>
+      <button class="drawer-nav-item" data-pane="pane-supabase">คลาวด์ Supabase</button>
       <button class="drawer-nav-item" data-pane="pane-backup">สำรอง/กู้คืน</button>
     </div>
 
@@ -659,7 +660,54 @@
         </div>
       </div>
 
-      <!-- PANE 7: สำรองข้อมูลและกู้คืน (Backup & Restore) -->
+      <!-- PANE 7: คลาวด์ Supabase (Cloud Database) -->
+      <div id="pane-supabase" class="drawer-pane">
+        <h4 style="margin-bottom: 0.5rem; font-size: 0.95rem;">เชื่อมต่อฐานข้อมูลคลาวด์ Supabase</h4>
+        <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 1rem;">
+          เชื่อมต่อกับโปรเจกต์ Supabase เพื่อซิงก์ข้อมูลเว็บไซต์และรูปภาพขึ้นสู่คลาวด์แบบ Realtime เมื่อเข้าดูเว็บจากเครื่องอื่นหรือผ่าน Vercel ข้อมูลจะอัปเดตตรงกันทันที
+        </p>
+
+        <div style="background: var(--bg-page); border: 1px solid var(--border-subtle); padding: 0.85rem; border-radius: var(--radius-sm); margin-bottom: 1.25rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span style="font-size: 0.85rem; font-weight: 600;">สถานะการเชื่อมต่อ:</span>
+            <span id="supabase-status-badge" style="font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 999px; background: #e5e7eb; color: #4b5563;">
+              ⚪ ยังไม่ได้เชื่อมต่อ
+            </span>
+          </div>
+        </div>
+
+        <form id="form-supabase-config" style="margin-bottom: 1.5rem;">
+          <div class="form-group">
+            <label class="form-label">Supabase Project URL</label>
+            <input type="url" id="input-supabase-url" class="form-input" placeholder="https://xyzcompany.supabase.co" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Supabase Anon Key (Public Key)</label>
+            <input type="text" id="input-supabase-anon" class="form-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." required>
+          </div>
+          <button type="submit" class="btn-cta btn-cta-primary" style="width: 100%;">
+            <i class="fa-solid fa-cloud-arrow-up"></i> บันทึกและทดสอบการเชื่อมต่อ
+          </button>
+        </form>
+
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+          <button id="btn-supabase-push" class="admin-action-btn btn-primary" style="flex: 1; justify-content: center; padding: 0.6rem;">
+            <i class="fa-solid fa-arrow-up-from-bracket"></i> อัปโหลดขึ้นคลาวด์
+          </button>
+          <button id="btn-supabase-pull" class="admin-action-btn btn-light" style="flex: 1; justify-content: center; padding: 0.6rem;">
+            <i class="fa-solid fa-arrow-down-to-bracket"></i> ดึงข้อมูลจากคลาวด์
+          </button>
+        </div>
+
+        <div style="border-top: 1px dashed var(--border-subtle); padding-top: 1rem;">
+          <h5 style="font-size: 0.85rem; margin-bottom: 0.5rem;">🚀 1-Click Deploy ขึ้น Vercel</h5>
+          <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Farochaboonlue2047-cmd%2Fportfolio" target="_blank" class="btn-cta btn-cta-secondary" style="width: 100%; justify-content: center; margin-bottom: 1rem;">
+            <i class="fa-solid fa-triangle-circle-square"></i> นำขึ้น Vercel ด้วย 1 คลิก
+          </a>
+        </div>
+      </div>
+
+      <!-- PANE 8: สำรองข้อมูลและกู้คืน (Backup & Restore) -->
       <div id="pane-backup" class="drawer-pane">
         <h4 style="margin-bottom: 0.75rem; font-size: 0.95rem;">สำรองและกู้คืนข้อมูล (Backup & Restore)</h4>
         <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
@@ -688,8 +736,10 @@
   </div>
 
   <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/data.js"></script>
   <script src="js/storage.js"></script>
+  <script src="js/supabase.js"></script>
   <script src="js/audio.js"></script>
   <script src="js/effects.js"></script>
   <script src="js/app.js"></script>
