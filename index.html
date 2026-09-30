@@ -4,10 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arocha Boonlue | Portfolio แฟ้มสะสมผลงานครุศาสตร์อุตสาหกรรมไฟฟ้า</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=VT323&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/teletext.css">
 </head>
-<body data-preset="sakura">
+<body data-preset="sakura" class="teletext-mode">
   <!-- Canvas for cute sparkles & floating particles -->
   <canvas id="sparkle-canvas"></canvas>
 
@@ -57,6 +61,348 @@
     </button>
   </div>
 
+  <!-- ========================================================
+       RETRO BROADCAST TELETEXT MAGAZINE INTERFACE
+       Ceefax / 8-Bit CRT / Retro Broadcast Theme
+       ======================================================== -->
+  <div class="crt-overlay"></div>
+
+  <div id="teletext-app" class="teletext-wrapper">
+    <!-- Top Header Bar -->
+    <header class="tele-header-bar">
+      <div class="tele-header-title">
+        <span class="title-yellow">BROADCAST</span>
+        <span class="title-cyan">TELETEXT MAGAZINE</span>
+      </div>
+      <div class="tele-header-right">
+        <span class="tele-page-num" id="tele-page-num-top">302</span>
+        <span class="tele-page-tag" id="tele-page-tag-top">MATCH DAY</span>
+      </div>
+    </header>
+
+    <!-- Navigation Ribbon -->
+    <nav class="tele-nav-ribbon">
+      <div class="tele-nav-links">
+        <span style="color:var(--tt-cyan);">&lt;&lt;</span>
+        <button class="tele-nav-link active" data-page="302">302 HOME</button>
+        <button class="tele-nav-link" data-page="303">303 WORKS</button>
+        <button class="tele-nav-link" data-page="304">304 EDU</button>
+        <button class="tele-nav-link" data-page="305">305 SKILLS</button>
+        <button class="tele-nav-link" data-page="306">306 PROFILE</button>
+        <button class="tele-nav-link" data-page="307">307 CERTS</button>
+        <span style="color:var(--tt-cyan);">&gt;&gt;</span>
+      </div>
+      <div class="tele-nav-controls">
+        <span class="tele-subpages-indicator" id="tele-subpages-counter">SUBPAGES 01/06</span>
+        <button class="tele-btn-ctrl btn-hold" id="btn-tele-hold" title="Pause or hold page cycle">HOLD</button>
+        <button class="tele-btn-ctrl btn-reveal" id="btn-tele-reveal" title="Reveal hidden answer or quote">REVEAL</button>
+        <button class="tele-btn-ctrl btn-classic" id="btn-tele-theme-toggle" title="สลับโหมดโมเดิร์นคลาสสิก (Sakura UI)">CLASSIC UI</button>
+      </div>
+    </nav>
+
+    <!-- Main Content Grid -->
+    <div class="tele-main-grid">
+      <!-- LEFT COLUMN -->
+      <main class="tele-left-col">
+
+        <!-- SUBPAGE 302: HOME / MATCH DAY / LIVE SCORES -->
+        <div id="tele-subpage-302" class="tele-subpage active">
+          <!-- Hero Box -->
+          <section class="tele-hero-box">
+            <div class="tele-hero-top">
+              <div class="tele-hero-headings">
+                <h1 class="tele-hero-h1">LIVE SCORES:</h1>
+                <h1 class="tele-hero-h1 tele-hero-h1-sub">FIRST.</h1>
+              </div>
+              <div class="tele-hero-art-container">
+                <div class="tele-pixel-ball-wrap">
+                  <div class="tele-pixel-ball" title="อโรชา บุญเหลือ (คลิกลากเปลี่ยนรูปโปรไฟล์)">
+                    <img id="tele-avatar-img" src="assets/images/profile_1.jpg?v=20261001" alt="Arocha Boonlue">
+                  </div>
+                  <div class="tele-speed-lines">
+                    <span class="tele-speed-line"></span>
+                    <span class="tele-speed-line"></span>
+                    <span class="tele-speed-line"></span>
+                    <span class="tele-speed-line"></span>
+                    <span class="tele-speed-line"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p class="tele-hero-desc">
+              นางสาวอโรชา บุญเหลือ (บุ๋มบิ๋ม) • คณะครุศาสตร์อุตสาหกรรม มทร.อีสาน ขอนแก่น<br>
+              <span style="color:var(--tt-cyan);">From circuit design to pedagogical practice, get the scores as they happen.</span>
+            </p>
+
+            <button class="tele-btn-action-yellow" id="btn-tele-explore">
+              GO TO LIVE SCORES &gt;
+            </button>
+          </section>
+
+          <!-- Scoreboard Row ("LIVE NOW") -->
+          <section class="tele-scoreboard-box">
+            <div class="tele-box-title-cyan">LIVE NOW</div>
+            <div class="tele-scores-grid">
+              <!-- Box 1 -->
+              <div class="tele-match-card">
+                <div class="tele-match-teams"><span>EVE</span><span>WOL</span></div>
+                <div class="tele-match-score" id="tele-score-0">1 - 0</div>
+                <div class="tele-match-meta">
+                  <span>45:32</span>
+                  <span class="tele-match-league">PREM</span>
+                </div>
+              </div>
+              <!-- Box 2 -->
+              <div class="tele-match-card">
+                <div class="tele-match-teams"><span>LEE</span><span>SUN</span></div>
+                <div class="tele-match-score" id="tele-score-1">0 - 1</div>
+                <div class="tele-match-meta">
+                  <span>45:16</span>
+                  <span class="tele-match-league">PREM</span>
+                </div>
+              </div>
+              <!-- Box 3 -->
+              <div class="tele-match-card">
+                <div class="tele-match-teams"><span>BOU</span><span>NOR</span></div>
+                <div class="tele-match-score" id="tele-score-2">2 - 2</div>
+                <div class="tele-match-meta">
+                  <span>46:08</span>
+                  <span class="tele-match-league">CHAMP</span>
+                </div>
+              </div>
+              <!-- Box 4 -->
+              <div class="tele-match-card">
+                <div class="tele-match-teams"><span>DUN</span><span>RAI</span></div>
+                <div class="tele-match-score" id="tele-score-3">0 - 0</div>
+                <div class="tele-match-meta">
+                  <span>HT</span>
+                  <span class="tele-match-league">LG1</span>
+                </div>
+              </div>
+              <!-- Box 5 -->
+              <div class="tele-match-card">
+                <div class="tele-match-teams"><span>ICT</span><span>PAR</span></div>
+                <div class="tele-match-score" id="tele-score-4">1 - 0</div>
+                <div class="tele-match-meta">
+                  <span>78:21</span>
+                  <span class="tele-match-league">LG1</span>
+                </div>
+              </div>
+              <!-- More Scores Button -->
+              <button class="tele-match-more-btn" id="btn-tele-more-scores">
+                MORE<br>SCORES<br>&gt;&gt;
+              </button>
+            </div>
+          </section>
+
+          <!-- Bottom Split Row ("TODAY ON TV" & "TABLES") -->
+          <section class="tele-bottom-split">
+            <!-- Left: Today on TV -->
+            <div class="tele-tv-box">
+              <div class="tele-box-title-cyan">TODAY ON TV</div>
+              <ul class="tele-tv-list">
+                <li class="tele-tv-item">
+                  <span class="tele-tv-time">19:30</span>
+                  <span class="tele-tv-show">Match of the Day</span>
+                  <span class="tele-tv-channel">BBC1 ▶</span>
+                </li>
+                <li class="tele-tv-item">
+                  <span class="tele-tv-time">22:15</span>
+                  <span class="tele-tv-show">The Big Match Preview</span>
+                  <span class="tele-tv-channel">ITV4 ▶</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Right: Tables -->
+            <div class="tele-tables-box">
+              <div class="tele-box-title-cyan">TABLES</div>
+              <table class="tele-table-grid">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>CLUB</th>
+                    <th style="text-align:right;">P</th>
+                    <th style="text-align:right;">GD</th>
+                    <th style="text-align:right;">PTS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="tele-table-pos">1</td>
+                    <td class="tele-table-name">Eastvale City</td>
+                    <td class="tele-table-num">38</td>
+                    <td class="tele-table-num">45</td>
+                    <td class="tele-table-num">89</td>
+                  </tr>
+                  <tr>
+                    <td class="tele-table-pos">2</td>
+                    <td class="tele-table-name">Northfield Utd</td>
+                    <td class="tele-table-num">38</td>
+                    <td class="tele-table-num">32</td>
+                    <td class="tele-table-num">78</td>
+                  </tr>
+                  <tr>
+                    <td class="tele-table-pos">3</td>
+                    <td class="tele-table-name">Riverton Town</td>
+                    <td class="tele-table-num">38</td>
+                    <td class="tele-table-num">21</td>
+                    <td class="tele-table-num">67</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <!-- SUBPAGE 303: WORKS & PROJECTS -->
+        <div id="tele-subpage-303" class="tele-subpage">
+          <div class="tele-hero-box">
+            <h2 style="color:var(--tt-yellow); font-size:32px; margin:0 0 6px 0;">303 WORKS &amp; ACTIVITIES (ผลงานและกิจกรรม)</h2>
+            <div style="color:var(--tt-cyan); font-size:18px;">โครงการ ชิ้นงานวิศวกรรมไฟฟ้า และสื่อการเรียนการสอน</div>
+            <div id="tele-works-list" class="tele-card-grid"></div>
+          </div>
+        </div>
+
+        <!-- SUBPAGE 304: EDUCATION -->
+        <div id="tele-subpage-304" class="tele-subpage">
+          <div class="tele-hero-box">
+            <h2 style="color:var(--tt-yellow); font-size:32px; margin:0 0 6px 0;">304 EDUCATION TIMELINE (ประวัติการศึกษา)</h2>
+            <div style="color:var(--tt-cyan); font-size:18px;">ระดับปริญญาตรี ปวส. และ ปวช. มทร.อีสาน &amp; วท.ขอนแก่น</div>
+            <div id="tele-edu-list" style="display:flex; flex-direction:column; gap:12px; margin-top:10px;"></div>
+          </div>
+        </div>
+
+        <!-- SUBPAGE 305: SKILLS & STATS -->
+        <div id="tele-subpage-305" class="tele-subpage">
+          <div class="tele-hero-box">
+            <h2 style="color:var(--tt-yellow); font-size:32px; margin:0 0 6px 0;">305 SKILLS &amp; COMPETENCIES (ทักษะและความสามารถ)</h2>
+            <div style="color:var(--tt-cyan); font-size:18px;">วิศวกรรมไฟฟ้า ครูช่าง และการออกแบบวงจร</div>
+            <div id="tele-skills-list" class="tele-card-grid"></div>
+          </div>
+        </div>
+
+        <!-- SUBPAGE 306: PROFILE & BIO -->
+        <div id="tele-subpage-306" class="tele-subpage">
+          <div class="tele-hero-box">
+            <h2 style="color:var(--tt-yellow); font-size:32px; margin:0 0 6px 0;">306 AROCHA BOONLUE (ข้อมูลประวัติส่วนตัว)</h2>
+            <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:10px;">
+              <img src="assets/images/profile_1.jpg?v=20261001" style="width:140px; height:140px; object-fit:cover; object-position:center 20%; border:2px solid var(--tt-cyan);" alt="Profile">
+              <div style="flex:1; font-size:20px; line-height:1.4;">
+                <div><span style="color:var(--tt-cyan);">ชื่อ:</span> นางสาวอโรชา บุญเหลือ (บุ๋มบิ๋ม)</div>
+                <div><span style="color:var(--tt-cyan);">สถานะ:</span> นักศึกษาครุศาสตร์อุตสาหกรรมไฟฟ้า</div>
+                <div><span style="color:var(--tt-cyan);">มหาวิทยาลัย:</span> มทร.อีสาน วิทยาเขตขอนแก่น</div>
+                <div><span style="color:var(--tt-cyan);">โทรศัพท์:</span> 083-248-2556</div>
+                <div><span style="color:var(--tt-cyan);">อีเมล:</span> arochaboonlue2047@gmail.com</div>
+                <div><span style="color:var(--tt-cyan);">คติ:</span> "ความรู้ทางวิชาการสร้างรากฐาน ความมุ่งมั่นและการปฏิบัติจริงสร้างอนาคต"</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUBPAGE 307: CERTIFICATES -->
+        <div id="tele-subpage-307" class="tele-subpage">
+          <div class="tele-hero-box">
+            <h2 style="color:var(--tt-yellow); font-size:32px; margin:0 0 6px 0;">307 CERTIFICATES &amp; DOWNLOADS</h2>
+            <div style="color:var(--tt-cyan); font-size:18px;">เอกสารรับรอง เกียรติบัตร และหลักสูตรฝึกอบรม</div>
+            <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+              <a href="assets/docs/smart_copper_sorter.pdf" target="_blank" class="tele-btn-action-yellow" style="font-size:18px;">📄 โครงงานคัดแยกเกรดสายไฟทองแดงอัจฉริยะ (PDF) &gt;</a>
+              <a href="assets/docs/electrical_training_course.pdf" target="_blank" class="tele-btn-action-yellow" style="font-size:18px;">📄 โครงการฝึกอบรมหลักสูตรระยะสั้นการเดินสายไฟฟ้า (PDF) &gt;</a>
+              <a href="assets/docs/activity_pedagogy.pdf" target="_blank" class="tele-btn-action-yellow" style="font-size:18px;">📄 กิจกรรมการพัฒนาทักษะวิชาชีพครูช่าง (PDF) &gt;</a>
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+      <!-- RIGHT COLUMN (SIDEBAR) -->
+      <aside class="tele-right-col">
+        <!-- LATEST Box -->
+        <div class="tele-latest-box">
+          <div class="tele-box-title-cyan">LATEST</div>
+          <ul class="tele-latest-list">
+            <li class="tele-latest-item" data-target-page="303">
+              <span class="tele-latest-num">303</span>
+              <span class="tele-latest-title">City snatch it in stoppage time</span>
+            </li>
+            <li class="tele-latest-item" data-target-page="303">
+              <span class="tele-latest-num">304</span>
+              <span class="tele-latest-title">Northfield win seven goal thriller</span>
+            </li>
+            <li class="tele-latest-item" data-target-page="303">
+              <span class="tele-latest-num">305</span>
+              <span class="tele-latest-title">Cup giant-killing shocks again</span>
+            </li>
+            <li class="tele-latest-item" data-target-page="303">
+              <span class="tele-latest-num">306</span>
+              <span class="tele-latest-title">Under-21s reach semi finals</span>
+            </li>
+            <li class="tele-latest-item" data-target-page="303">
+              <span class="tele-latest-num">307</span>
+              <span class="tele-latest-title">Weekend TV picks and previews</span>
+            </li>
+            <li class="tele-latest-item" data-target-page="303">
+              <span class="tele-latest-num">308</span>
+              <span class="tele-latest-title">Quiz: Name the 1999 treble side</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- QUIZ TIME Box -->
+        <div class="tele-quiz-box" id="tele-quiz-box">
+          <div class="tele-quiz-left">
+            <div class="tele-quiz-title">QUIZ TIME</div>
+            <div class="tele-quiz-question">Which club won the 1999 treble?</div>
+            <div class="tele-quiz-reveal-txt">Press <span>REVEAL</span> for answer</div>
+            <div class="tele-quiz-answer" id="tele-quiz-answer-text">
+              Manchester United (1998-99)!<br>
+              <span style="color:var(--tt-cyan);">คติประจำใจ: ความรู้ทางวิชาการสร้างรากฐาน ความมุ่งมั่นและการปฏิบัติจริงสร้างอนาคต</span>
+            </div>
+          </div>
+          <div class="tele-quiz-icon-box" id="tele-quiz-icon" title="คลิกเพื่อเฉลยคำตอบ / Reveal Answer">
+            ?
+          </div>
+        </div>
+
+        <!-- TELETEXT EXTRA Box -->
+        <div class="tele-extra-box">
+          <div class="tele-extra-content">
+            <div class="tele-extra-icon">
+              <i class="fa-solid fa-newspaper"></i>
+            </div>
+            <div class="tele-extra-text">
+              <h4>TELETEXT EXTRA</h4>
+              <p>Go deeper with in-depth features, tactical breakdowns and stats only on Teletext Extra.</p>
+            </div>
+          </div>
+          <button class="tele-extra-btn" id="btn-tele-extra">
+            <span>FIND OUT MORE</span>
+            <span>&gt;</span>
+          </button>
+        </div>
+
+        <!-- COMING UP Box (Live Digital Clock) -->
+        <div class="tele-clock-box">
+          <div class="tele-box-title-cyan">COMING UP</div>
+          <div class="tele-clock-content">
+            <div class="tele-clock-icon">
+              <i class="fa-regular fa-clock"></i>
+            </div>
+            <div class="tele-clock-display" id="tele-clock-time">
+              17:42
+            </div>
+            <div class="tele-clock-meta">
+              <span class="meta-highlight">Kick-off</span>
+              <span class="meta-sub">City v United</span>
+              <span class="meta-sub" style="color:var(--tt-cyan);">Premier League</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
   <!-- Sticky Site Navigation Header -->
   <header class="site-header">
     <div class="nav-container">
@@ -100,6 +446,9 @@
         </button>
         <button id="btn-toggle-sound" class="action-btn" title="เปิด/ปิด เสียงเอฟเฟกต์ Pop">
           <i class="fa-solid fa-volume-high"></i>
+        </button>
+        <button id="btn-toggle-teletext-classic" class="action-btn" title="สลับสู่โหมด Broadcast Teletext Magazine (Ceefax)">
+          <i class="fa-solid fa-tv"></i>
         </button>
         <button id="btn-toggle-theme" class="action-btn" title="สลับโหมด มืด/สว่าง">
           <i class="fa-solid fa-moon"></i>
@@ -915,5 +1264,6 @@
   <script src="js/audio.js"></script>
   <script src="js/effects.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/teletext.js"></script>
 </body>
 </html>
