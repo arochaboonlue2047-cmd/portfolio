@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arocha Boonlue | Portfolio แฟ้มสะสมผลงานครุศาสตร์อุตสาหกรรมไฟฟ้า</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-preset="sakura">
+  <!-- Canvas for cute sparkles & floating particles -->
+  <canvas id="sparkle-canvas"></canvas>
+
+  <!-- Admin Bar (Visible when logged in) -->
+  <div id="admin-bar" class="admin-bar">
+    <div class="admin-bar-inner">
+      <div class="admin-bar-title">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <span>ระบบจัดการและตกแต่งเว็บ</span>
+        <span class="admin-tag">แอดมิน: คุณบุ๋มบิ๋ม (Bimmm)</span>
+      </div>
+      <div class="admin-bar-actions">
+        <button id="btn-quick-edit" class="admin-action-btn btn-light" title="แก้ไขข้อความโดยตรงบนหน้าเว็บ">
+          <i class="fa-solid fa-pen-to-square"></i> โหมดแก้ไขด่วน
+        </button>
+        <button id="btn-open-drawer" class="admin-action-btn btn-primary" title="เปิดแผงควบคุมหลัก">
+          <i class="fa-solid fa-sliders"></i> แผงควบคุม & ตกแต่ง
+        </button>
+        <button id="btn-export-backup" class="admin-action-btn btn-light" title="ส่งออกไฟล์ข้อมูลสำรอง">
+          <i class="fa-solid fa-download"></i> สำรองข้อมูล
+        </button>
+        <button id="btn-admin-logout" class="admin-action-btn btn-danger" title="ออกจากระบบแอดมิน">
+          <i class="fa-solid fa-right-from-bracket"></i> ออกจากระบบ
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Edit Floating Action Bar -->
+  <div id="quick-edit-toolbar" class="quick-edit-toolbar">
+    <span><i class="fa-solid fa-pen-nib"></i> โหมดแก้ไขข้อความกำลังเปิดใช้งาน: คลิกที่ข้อความเพื่อแก้ไขได้ทันที</span>
+    <button id="btn-save-quick-edit" class="admin-action-btn btn-primary">
+      <i class="fa-solid fa-check"></i> บันทึกทั้งหมด
+    </button>
+    <button id="btn-cancel-quick-edit" class="admin-action-btn btn-light">
+      <i class="fa-solid fa-xmark"></i> ยกเลิก
+    </button>
+  </div>
+
+  <!-- Sticky Site Navigation Header -->
+  <header class="site-header">
+    <div class="nav-container">
+      <div class="brand" id="brand-home-btn" title="กลับสู่หน้าหลัก">
+        <img src="assets/images/profile_1.jpg" alt="Arocha Boonlue" class="brand-avatar" id="nav-brand-avatar">
+        <div class="brand-info">
+          <span class="brand-name">
+            <span id="nav-brand-name">บุ๋มบิ๋ม อโรชา</span>
+            <i class="fa-solid fa-sparkles sparkle-icon"></i>
+          </span>
+          <span class="brand-sub" id="nav-brand-sub">ครุศาสตร์อุตสาหกรรมไฟฟ้า มทร.อีสาน</span>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="nav-tabs" id="nav-tabs">
+        <button class="tab-btn active" data-tab="home">
+          <i class="fa-solid fa-house"></i> <span>หน้าหลัก</span>
+        </button>
+        <button class="tab-btn" data-tab="profile">
+          <i class="fa-solid fa-user-circle"></i> <span>ข้อมูลส่วนตัว</span>
+        </button>
+        <button class="tab-btn" data-tab="education">
+          <i class="fa-solid fa-graduation-cap"></i> <span>ประวัติการศึกษา</span>
+        </button>
+        <button class="tab-btn" data-tab="courses">
+          <i class="fa-solid fa-book-open"></i> <span>รายวิชา</span>
+        </button>
+        <button class="tab-btn" data-tab="activities">
+          <i class="fa-solid fa-trophy"></i> <span>กิจกรรมและผลงาน</span>
+        </button>
+      </nav>
+
+      <!-- Utility Actions (Theme toggle, Sound toggle, Mobile toggle) -->
+      <div class="nav-actions">
+        <button id="btn-toggle-sound" class="action-btn" title="เปิด/ปิด เสียงเอฟเฟกต์ Pop">
+          <i class="fa-solid fa-volume-high"></i>
+        </button>
+        <button id="btn-toggle-theme" class="action-btn" title="สลับโหมด มืด/สว่าง">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <button id="btn-mobile-menu" class="action-btn mobile-menu-btn" title="เมนูนำทาง">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Multi-Section Container -->
+  <main class="main-content">
+
+    <!-- ========================================================
+         TAB 1: หน้าหลัก (Home Overview)
+         ======================================================== -->
+    <section id="tab-home" class="tab-section active">
+      <!-- Hero Card -->
+      <div class="hero-card">
+        <div class="hero-text-content">
+          <div class="hero-tag">
+            <i class="fa-solid fa-bolt"></i>
+            <span data-editable="profile.statusBadge" id="hero-badge">พร้อมเรียนรู้และสร้างสรรค์นวัตกรรม</span>
+          </div>
+          <h1 class="hero-title">
+            สวัสดีค่ะ ฉันชื่อ <br>
+            <span class="name-highlight" data-editable="profile.name" id="hero-name">นางสาวอโรชา บุญเหลือ</span>
+          </h1>
+          <div class="hero-role">
+            <i class="fa-solid fa-chalkboard-user"></i>
+            <span data-editable="profile.title" id="hero-title">นักศึกษาครุศาสตร์อุตสาหกรรมไฟฟ้า</span>
+            <span>(ชื่อเล่น: <strong data-editable="profile.nickname" id="hero-nickname">บุ๋มบิ๋ม</strong>)</span>
+          </div>
+          <div class="hero-uni">
+            <i class="fa-solid fa-school"></i>
+            <span data-editable="profile.university" id="hero-uni">มหาวิทยาลัยเทคโนโลยีราชมงคลอีสาน วิทยาเขตขอนแก่น</span> • 
+            <span data-editable="profile.faculty" id="hero-fac">คณะครุศาสตร์อุตสาหกรรม</span>
+          </div>
+          <p class="hero-bio" data-editable="profile.bio" id="hero-bio">
+            มุ่งมั่นในการเรียนรู้ทั้งด้านวิศวกรรมไฟฟ้าและการถ่ายทอดความรู้ในฐานะครูช่าง มีความเชี่ยวชาญด้านการออกแบบวงจรดิจิทัล การเขียนแบบไฟฟ้าด้วย CAD และการจัดทำสื่อการเรียนการสอนที่มีประสิทธิภาพ
+          </p>
+          <div class="hero-actions">
+            <button class="btn-cta btn-cta-primary" id="hero-btn-explore">
+              <i class="fa-solid fa-star"></i> ดูผลงาน & ชิ้นงาน
+            </button>
+            <button class="btn-cta btn-cta-secondary" id="hero-btn-contact">
+              <i class="fa-solid fa-envelope"></i> ข้อมูลติดต่อ
+            </button>
+            <button class="btn-cta btn-cta-secondary" id="btn-print-portfolio" title="พิมพ์หรือบันทึกเป็น PDF">
+              <i class="fa-solid fa-print"></i> พิมพ์แฟ้มสะสมผลงาน
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="portrait-wrapper">
+            <div class="portrait-ring"></div>
+            <img src="assets/images/profile_1.jpg" alt="Arocha Boonlue" class="portrait-img" id="hero-avatar">
+            <div class="status-floating-pill">
+              <span class="status-dot"></span>
+              <span data-editable="profile.major" id="hero-major-pill">ครุศาสตร์อุตสาหกรรมไฟฟ้า</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Ribbon -->
+      <div class="stats-grid" id="stats-container">
+        <!-- Rendered dynamically from data.js -->
+      </div>
+
+      <!-- Highlights Overview Grid -->
+      <div class="home-highlights-grid">
+        <!-- Highlight: Quick Bio & Highlights -->
+        <div class="highlight-box">
+          <div class="highlight-header">
+            <h3 class="highlight-title"><i class="fa-solid fa-id-card"></i> ข้อมูลเบื้องต้น</h3>
+            <span class="highlight-view-all" data-go-tab="profile">ดูประวัติเต็ม <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+          <div class="info-field" style="margin-bottom: 0.6rem;">
+            <span class="info-label">รหัสนักศึกษา</span>
+            <span class="info-value" id="home-student-id">68322110251-2</span>
+          </div>
+          <div class="info-field" style="margin-bottom: 0.6rem;">
+            <span class="info-label">ข้อมูลติดต่อหลัก</span>
+            <span class="info-value">โทร: 083-248-2556 | arochaboonlue2047@gmail.com</span>
+          </div>
+          <div class="info-field">
+            <span class="info-label">คติประจำใจ</span>
+            <span class="info-value" style="font-style: italic;" id="home-motto">"ความรู้ทางวิชาการสร้างรากฐาน ความมุ่งมั่นและการปฏิบัติจริงสร้างอนาคต"</span>
+          </div>
+        </div>
+
+        <!-- Highlight: Education Path -->
+        <div class="highlight-box">
+          <div class="highlight-header">
+            <h3 class="highlight-title"><i class="fa-solid fa-graduation-cap"></i> การศึกษาล่าสุด</h3>
+            <span class="highlight-view-all" data-go-tab="education">ดูไทม์ไลน์ <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+          <div style="margin-bottom: 0.75rem;">
+            <strong style="color: var(--primary);">ระดับปริญญาตรี (กำลังศึกษา)</strong>
+            <p style="font-size: 0.88rem; color: var(--text-secondary);">มหาวิทยาลัยเทคโนโลยีราชมงคลอีสาน วิทยาเขตขอนแก่น คณะครุศาสตร์อุตสาหกรรม</p>
+          </div>
+          <div style="border-top: 1px dashed var(--border-subtle); padding-top: 0.5rem;">
+            <div style="display:flex; justify-content: space-between; align-items:center;">
+              <span style="font-size: 0.85rem; font-weight: 600;">ปวส. วิทยาลัยเทคนิคหัวตะพาน</span>
+              <span class="timeline-gpa-badge" style="font-size: 0.75rem;">GPA 3.85 (เกียรตินิยม 1)</span>
+            </div>
+            <div style="display:flex; justify-content: space-between; align-items:center; margin-top: 0.4rem;">
+              <span style="font-size: 0.85rem; font-weight: 600;">ปวช. วิทยาลัยเทคนิคหัวตะพาน</span>
+              <span class="timeline-gpa-badge" style="font-size: 0.75rem;">GPA 3.80 (เกียรตินิยม)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Highlight: Featured Work -->
+        <div class="highlight-box">
+          <div class="highlight-header">
+            <h3 class="highlight-title"><i class="fa-solid fa-microchip"></i> ชิ้นงานและโครงงานเด่น</h3>
+            <span class="highlight-view-all" data-go-tab="activities">ดูชิ้นงานทั้งหมด <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+          <div style="margin-bottom: 0.5rem;">
+            <strong style="color: var(--primary);">โครงการ Smart Copper Sorter</strong>
+            <p style="font-size: 0.85rem; color: var(--text-secondary);">เครื่องคัดแยกทองแดงและโลหะอัจฉริยะสำหรับงานวิศวกรรมรีไซเคิล</p>
+          </div>
+          <div style="border-top: 1px dashed var(--border-subtle); padding-top: 0.5rem;">
+            <strong style="color: var(--text-primary); font-size: 0.9rem;">วงจรนับดิจิทัล 74LS90 + 74LS49 Decoder</strong>
+            <p style="font-size: 0.82rem; color: var(--text-secondary);">จำลองวงจรนับความถี่และขับจอ 7-Segment สองหลักด้วย Proteus</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         TAB 2: ข้อมูลส่วนตัว (Personal Info)
+         ======================================================== -->
+    <section id="tab-profile" class="tab-section">
+      <div class="section-header">
+        <span class="section-badge"><i class="fa-solid fa-heart"></i> Personal Background</span>
+        <h2 class="section-title">ข้อมูลส่วนตัวและประวัติ</h2>
+        <p class="section-subtitle">ข้อมูลส่วนบุคคล ข้อมูลการติดต่อ ทักษะความเชี่ยวชาญ และเป้าหมายทางวิชาชีพ</p>
+      </div>
+
+      <div class="profile-container">
+        <!-- Profile Left Sidebar -->
+        <aside class="profile-sidebar">
+          <img src="assets/images/profile_1.jpg" alt="Arocha Boonlue" class="profile-avatar-large" id="profile-page-avatar">
+          <h3 class="profile-name" data-editable="profile.name" id="profile-page-name">นางสาวอโรชา บุญเหลือ</h3>
+          <div class="profile-nickname-badge">ชื่อเล่น: <strong data-editable="profile.nickname" id="profile-page-nickname">บุ๋มบิ๋ม</strong></div>
+          
+          <div class="profile-motto-box">
+            <i class="fa-solid fa-quote-left" style="color: var(--primary); margin-right: 0.3rem;"></i>
+            <span data-editable="profile.motto" id="profile-page-motto">ความรู้ทางวิชาการสร้างรากฐาน ความมุ่งมั่นและการปฏิบัติจริงสร้างอนาคต</span>
+            <i class="fa-solid fa-quote-right" style="color: var(--primary); margin-left: 0.3rem;"></i>
+          </div>
+
+          <div class="profile-contact-list">
+            <div class="contact-item">
+              <i class="fa-solid fa-phone"></i>
+              <div>
+                <div class="info-label">เบอร์โทรศัพท์</div>
+                <div class="info-value" data-editable="profile.phone" id="profile-page-phone">0832482556</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <i class="fa-solid fa-envelope"></i>
+              <div>
+                <div class="info-label">อีเมล</div>
+                <div class="info-value" data-editable="profile.email" id="profile-page-email">arochaboonlue2047@gmail.com</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <i class="fa-brands fa-line"></i>
+              <div>
+                <div class="info-label">LINE ID / เบอร์ติดต่อ</div>
+                <div class="info-value">0832482556</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <i class="fa-solid fa-location-dot"></i>
+              <div>
+                <div class="info-label">สถาบันการศึกษา</div>
+                <div class="info-value" style="font-size: 0.85rem;">มทร.อีสาน วิทยาเขตขอนแก่น</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Profile Right Details -->
+        <div class="profile-details-content">
+          <!-- Basic Info Card -->
+          <div class="detail-card">
+            <h4 class="detail-card-title"><i class="fa-solid fa-address-card"></i> ข้อมูลทั่วไป</h4>
+            <div class="info-grid">
+              <div class="info-field">
+                <span class="info-label">ชื่อ - สกุล</span>
+                <span class="info-value" data-editable="profile.name" id="grid-name">นางสาวอโรชา บุญเหลือ</span>
+              </div>
+              <div class="info-field">
+                <span class="info-label">ชื่อเล่น</span>
+                <span class="info-value" data-editable="profile.nickname" id="grid-nickname">บุ๋มบิ๋ม</span>
+              </div>
+              <div class="info-field">
+                <span class="info-label">รหัสนักศึกษา</span>
+                <span class="info-value" data-editable="profile.studentId" id="grid-studentId">68322110251-2</span>
+              </div>
+              <div class="info-field">
+                <span class="info-label">วัน เดือน ปีเกิด</span>
+                <span class="info-value" data-editable="profile.birthdate" id="grid-birthdate">20 เมษายน 2547</span>
+              </div>
+              <div class="info-field">
+                <span class="info-label">อายุ</span>
+                <span class="info-value" data-editable="profile.age" id="grid-age">22 ปี</span>
+              </div>
+              <div class="info-field">
+                <span class="info-label">สัญชาติ / เชื้อชาติ</span>
+                <span class="info-value"><span data-editable="profile.nationality" id="grid-nationality">ไทย</span> / <span data-editable="profile.ethnicity" id="grid-ethnicity">ไทย</span></span>
+              </div>
+              <div class="info-field">
+                <span class="info-label">มหาวิทยาลัย</span>
+                <span class="info-value" data-editable="profile.university" id="grid-uni">มหาวิทยาลัยเทคโนโลยีราชมงคลอีสาน วิทยาเขตขอนแก่น</span>
+              </div>
+              <div class="info-field">
+                <span class="info-label">คณะ</span>
+                <span class="info-value" data-editable="profile.faculty" id="grid-fac">คณะครุศาสตร์อุตสาหกรรม</span>
+              </div>
+              <div class="info-field" style="grid-column: 1 / -1;">
+                <span class="info-label">สาขาวิชา</span>
+                <span class="info-value" data-editable="profile.major" id="grid-major" style="font-weight: 700; color: var(--primary);">สาขาครุศาสตร์อุตสาหกรรมไฟฟ้า</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Skills & Competencies Card -->
+          <div class="detail-card">
+            <h4 class="detail-card-title"><i class="fa-solid fa-gears"></i> ทักษะและความเชี่ยวชาญ</h4>
+            <div id="skills-container">
+              <!-- Dynamically populated from data.js -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         TAB 3: ประวัติการศึกษา (Education Timeline)
+         ======================================================== -->
+    <section id="tab-education" class="tab-section">
+      <div class="section-header">
+        <span class="section-badge"><i class="fa-solid fa-graduation-cap"></i> Academic Journey</span>
+        <h2 class="section-title">ประวัติการศึกษา</h2>
+        <p class="section-subtitle">เส้นทางการเรียนรู้ตั้งแต่วัยเยาว์ ผ่านสายวิชาชีพช่างไฟฟ้า สู่การศึกษาครุศาสตร์อุตสาหกรรม</p>
+      </div>
+
+      <div class="education-timeline" id="education-timeline-container">
+        <!-- Rendered dynamically from data.js -->
+      </div>
+    </section>
+
+    <!-- ========================================================
+         TAB 4: รายวิชา (Courses & Academic Works)
+         ======================================================== -->
+    <section id="tab-courses" class="tab-section">
+      <div class="section-header">
+        <span class="section-badge"><i class="fa-solid fa-book"></i> Curriculum & Coursework</span>
+        <h2 class="section-title">หน้ารายวิชาและชิ้นงานในรายวิชา</h2>
+        <p class="section-subtitle">การฝึกทักษะวิศวกรรมไฟฟ้า การเขียนแบบ และการออกแบบสื่อการเรียนรู้</p>
+      </div>
+
+      <div class="courses-container" id="courses-list-container">
+        <!-- Rendered dynamically from data.js -->
+      </div>
+    </section>
+
+    <!-- ========================================================
+         TAB 5: กิจกรรมและผลงาน (Activities & Portfolio Works)
+         ======================================================== -->
+    <section id="tab-activities" class="tab-section">
+      <div class="section-header">
+        <span class="section-badge"><i class="fa-solid fa-trophy"></i> Activities & Projects</span>
+        <h2 class="section-title">กิจกรรมและผลงาน</h2>
+        <p class="section-subtitle">รวมผลงานนวัตกรรม การทดลอง งานจิตอาสา และกิจกรรมเสริมหลักสูตร</p>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="activities-filter-bar" id="activities-filter-bar">
+        <button class="filter-btn active" data-filter="all">ทั้งหมด</button>
+        <button class="filter-btn" data-filter="โครงงานนวัตกรรม">โครงงานนวัตกรรม</button>
+        <button class="filter-btn" data-filter="จิตอาสา & สังคม">จิตอาสา & สังคม</button>
+        <button class="filter-btn" data-filter="การสอน & อบรม">การสอน & อบรม</button>
+        <button class="filter-btn" data-filter="ชิ้นงานในรายวิชา">ชิ้นงานในรายวิชา</button>
+      </div>
+
+      <!-- Activities Grid -->
+      <div class="activities-grid" id="activities-grid-container">
+        <!-- Rendered dynamically from data.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================
+       Site Footer
+       ======================================================== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-author-box">
+        <h4 class="footer-title">แฟ้มสะสมผลงาน (Portfolio)</h4>
+        <div class="footer-author-name">
+          จัดทำโดย นางสาวอโรชา บุญเหลือ
+        </div>
+        <div class="footer-author-meta">
+          รหัสนักศึกษา 68322110251-2 <br>
+          มหาวิทยาลัยเทคโนโลยีราชมงคลอีสาน วิทยาเขตขอนแก่น <br>
+          คณะครุศาสตร์อุตสาหกรรม สาขาครุศาสตร์อุตสาหกรรมไฟฟ้า
+        </div>
+      </div>
+
+      <div>
+        <h5 class="footer-links-title">การนำทางด่วน</h5>
+        <ul class="footer-nav-list">
+          <li><a href="#home" data-go-tab="home"><i class="fa-solid fa-angle-right"></i> หน้าหลัก</a></li>
+          <li><a href="#profile" data-go-tab="profile"><i class="fa-solid fa-angle-right"></i> ข้อมูลส่วนตัว</a></li>
+          <li><a href="#education" data-go-tab="education"><i class="fa-solid fa-angle-right"></i> ประวัติการศึกษา</a></li>
+          <li><a href="#courses" data-go-tab="courses"><i class="fa-solid fa-angle-right"></i> รายวิชาและชิ้นงาน</a></li>
+          <li><a href="#activities" data-go-tab="activities"><i class="fa-solid fa-angle-right"></i> กิจกรรมและผลงาน</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h5 class="footer-links-title">ช่องทางการติดต่อ</h5>
+        <ul class="footer-nav-list">
+          <li><i class="fa-solid fa-phone" style="color:var(--primary); margin-right: 0.35rem;"></i> 0832482556</li>
+          <li><i class="fa-solid fa-envelope" style="color:var(--primary); margin-right: 0.35rem;"></i> arochaboonlue2047@gmail.com</li>
+          <li><i class="fa-solid fa-circle-info" style="color:var(--primary); margin-right: 0.35rem;"></i> โหมดล็อกอิน: กด <code>Ctrl + L + O</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>
+        &copy; 2026 Arocha Boonlue • Portfolio ครุศาสตร์อุตสาหกรรมไฟฟ้า มทร.อีสาน ขอนแก่น
+      </div>
+      <div>
+        <span id="footer-login-trigger" class="hidden-login-trigger" title="ล็อกอินจัดการเว็บ (Ctrl+L+O)">
+          <i class="fa-solid fa-lock"></i>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================
+       MODAL 1: Hidden Admin Login Modal (Triggered by Ctrl+L+O)
+       ======================================================== -->
+  <div id="modal-login" class="modal-overlay">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <i class="fa-solid fa-shield-halved" style="color: var(--primary);"></i> เข้าสู่ระบบจัดการและตกแต่งเว็บ
+        </h3>
+        <button class="modal-close-btn" data-close-modal="modal-login">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="form-login">
+          <div class="form-group">
+            <label class="form-label" for="login-username">ชื่อผู้ใช้งาน (Username)</label>
+            <input type="text" id="login-username" class="form-input" placeholder="ระบุชื่อผู้ใช้งาน" autocomplete="username" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="login-password">รหัสผ่าน (Password)</label>
+            <input type="password" id="login-password" class="form-input" placeholder="ระบุรหัสผ่าน" autocomplete="current-password" required>
+          </div>
+          <div id="login-error-msg" style="color: #ef4444; font-size: 0.85rem; margin-bottom: 1rem; display: none;">
+            <i class="fa-solid fa-circle-exclamation"></i> ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง
+          </div>
+          <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+            <button type="button" class="btn-cta btn-cta-secondary" data-close-modal="modal-login">ยกเลิก</button>
+            <button type="submit" class="btn-cta btn-cta-primary">
+              <i class="fa-solid fa-right-to-bracket"></i> เข้าสู่ระบบ
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MODAL 2: Media Lightbox Modal (For viewing images & docs)
+       ======================================================== -->
+  <div id="modal-lightbox" class="modal-overlay">
+    <div class="modal-window lightbox-window">
+      <div class="modal-header">
+        <h3 class="modal-title" id="lightbox-title">
+          <i class="fa-solid fa-eye" style="color: var(--primary);"></i> แสดงตัวอย่างสื่อ / ผลงาน
+        </h3>
+        <button class="modal-close-btn" data-close-modal="modal-lightbox">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="lightbox-content-area" id="lightbox-container">
+        <!-- Rendered image or iframe/video -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       ADMIN DASHBOARD DRAWER (Slide-in Management Panel)
+       ======================================================== -->
+  <div id="admin-drawer" class="admin-drawer">
+    <div class="drawer-header">
+      <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--text-primary);">
+        <i class="fa-solid fa-palette" style="color: var(--primary);"></i>
+        <span>แผงควบคุมและตกแต่งเว็บ</span>
+      </div>
+      <button class="modal-close-btn" id="btn-close-drawer">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Drawer Navigation Tabs -->
+    <div class="drawer-nav">
+      <button class="drawer-nav-item active" data-pane="pane-theme">ตกแต่งหน้าตา</button>
+      <button class="drawer-nav-item" data-pane="pane-profile">ข้อมูลส่วนตัว</button>
+      <button class="drawer-nav-item" data-pane="pane-edu">การศึกษา</button>
+      <button class="drawer-nav-item" data-pane="pane-courses">รายวิชา</button>
+      <button class="drawer-nav-item" data-pane="pane-activities">ผลงาน</button>
+      <button class="drawer-nav-item" data-pane="pane-upload">อัปโหลดไฟล์</button>
+      <button class="drawer-nav-item" data-pane="pane-backup">สำรอง/กู้คืน</button>
+    </div>
+
+    <!-- Drawer Body Panes -->
+    <div class="drawer-body">
+      <!-- PANE 1: ตกแต่งหน้าตาเว็บ -->
+      <div id="pane-theme" class="drawer-pane active">
+        <h4 style="margin-bottom: 0.75rem; font-size: 0.95rem;">เลือกชุดธีมสี (Theme Presets)</h4>
+        <div class="theme-presets-grid">
+          <div class="preset-chip active" data-set-preset="sakura">
+            <span class="preset-color-dot" style="background: #ff6b8b;"></span>
+            <span>Sakura Blossom</span>
+          </div>
+          <div class="preset-chip" data-set-preset="peach">
+            <span class="preset-color-dot" style="background: #ff7e5f;"></span>
+            <span>Peach Sunshine</span>
+          </div>
+          <div class="preset-chip" data-set-preset="mint">
+            <span class="preset-color-dot" style="background: #10b981;"></span>
+            <span>Mint Fresh</span>
+          </div>
+          <div class="preset-chip" data-set-preset="lavender">
+            <span class="preset-color-dot" style="background: #8b5cf6;"></span>
+            <span>Lavender Dream</span>
+          </div>
+          <div class="preset-chip" data-set-preset="ocean">
+            <span class="preset-color-dot" style="background: #0284c7;"></span>
+            <span>Ocean Azure</span>
+          </div>
+        </div>
+
+        <h4 style="margin-bottom: 0.75rem; font-size: 0.95rem;">รูปแบบฟอนต์ (Typography)</h4>
+        <div class="form-group">
+          <select id="select-font-family" class="form-select">
+            <option value="Prompt">Prompt (โมเดิร์น ทางการ คมชัด เหมาะกับครุศาสตร์ไฟฟ้า)</option>
+            <option value="Kanit">Kanit (ทันสมัย มีมิติ)</option>
+            <option value="Sarabun">Sarabun (ทางการ เรียบหรู ราชการ)</option>
+            <option value="Chakra Petch">Chakra Petch (เรโทร เทคโนโลยี ลอจิกดิจิทัล)</option>
+          </select>
+        </div>
+
+        <h4 style="margin-bottom: 0.75rem; font-size: 0.95rem;">เอฟเฟกต์ตกแต่ง (Visual Effects)</h4>
+        <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
+          <label style="display: flex; align-items: center; justify-content: space-between; font-size: 0.9rem; cursor: pointer;">
+            <span><i class="fa-solid fa-sparkles" style="color: var(--primary);"></i> ละอองดาว & ประกายลอย (Sparkles)</span>
+            <input type="checkbox" id="check-sparkles" checked>
+          </label>
+          <label style="display: flex; align-items: center; justify-content: space-between; font-size: 0.9rem; cursor: pointer;">
+            <span><i class="fa-solid fa-volume-high" style="color: var(--primary);"></i> เสียงคลิก Pop นุ่มนวล</span>
+            <input type="checkbox" id="check-sound" checked>
+          </label>
+        </div>
+      </div>
+
+      <!-- PANE 2: จัดการข้อมูลส่วนตัว -->
+      <div id="pane-profile" class="drawer-pane">
+        <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">แก้ไขข้อมูลส่วนตัว</h4>
+        <form id="form-edit-profile">
+          <div class="form-group">
+            <label class="form-label">ชื่อ - สกุล</label>
+            <input type="text" id="edit-profile-name" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">ชื่อเล่น</label>
+            <input type="text" id="edit-profile-nickname" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">รหัสนักศึกษา</label>
+            <input type="text" id="edit-profile-studentId" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">เบอร์โทรศัพท์</label>
+            <input type="text" id="edit-profile-phone" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">อีเมล</label>
+            <input type="email" id="edit-profile-email" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">คติประจำใจ</label>
+            <textarea id="edit-profile-motto" class="form-textarea" rows="2"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">ข้อความแนะนำตัว (Bio)</label>
+            <textarea id="edit-profile-bio" class="form-textarea" rows="3"></textarea>
+          </div>
+          <button type="submit" class="btn-cta btn-cta-primary" style="width: 100%;">บันทึกข้อมูลส่วนตัว</button>
+        </form>
+      </div>
+
+      <!-- PANE 3: จัดการการศึกษา -->
+      <div id="pane-edu" class="drawer-pane">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h4 style="font-size: 0.95rem;">ประวัติการศึกษา</h4>
+          <button id="btn-add-edu" class="admin-action-btn btn-primary"><i class="fa-solid fa-plus"></i> เพิ่มระดับการศึกษา</button>
+        </div>
+        <div id="drawer-edu-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- PANE 4: จัดการรายวิชา -->
+      <div id="pane-courses" class="drawer-pane">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h4 style="font-size: 0.95rem;">รายวิชาและชิ้นงาน</h4>
+          <button id="btn-add-course" class="admin-action-btn btn-primary"><i class="fa-solid fa-plus"></i> เพิ่มรายวิชา</button>
+        </div>
+        <div id="drawer-courses-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- PANE 5: จัดการกิจกรรมและผลงาน -->
+      <div id="pane-activities" class="drawer-pane">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h4 style="font-size: 0.95rem;">กิจกรรมและผลงาน</h4>
+          <button id="btn-add-activity" class="admin-action-btn btn-primary"><i class="fa-solid fa-plus"></i> เพิ่มผลงานใหม่</button>
+        </div>
+        <div id="drawer-activities-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- PANE 6: อัปโหลดไฟล์ทุกประเภท (คลิป, รูป, ฟอนต์, PDF) -->
+      <div id="pane-upload" class="drawer-pane">
+        <h4 style="margin-bottom: 0.5rem; font-size: 0.95rem;">อัปโหลดไฟล์ทุกประเภท</h4>
+        <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 1rem;">
+          รองรับรูปภาพ (JPG, PNG, GIF), วิดีโอ (MP4, WebM), เอกสาร (PDF), และฟอนต์ (.ttf, .woff, .woff2) เก็บไว้ในเครื่องอัตโนมัติ
+        </p>
+
+        <div class="dropzone" id="file-dropzone">
+          <i class="fa-solid fa-cloud-arrow-up dropzone-icon"></i>
+          <p style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem;">คลิกเพื่อเลือกไฟล์ หรือลากไฟล์มาวางที่นี่</p>
+          <span style="font-size: 0.75rem; color: var(--text-muted);">รูปภาพ / วิดีโอ / เอกสาร PDF / ฟอนต์</span>
+          <input type="file" id="input-universal-file" multiple style="display: none;">
+        </div>
+
+        <div style="margin-top: 1.5rem;">
+          <h5 style="font-size: 0.88rem; margin-bottom: 0.5rem;">รายการไฟล์ที่อัปโหลดไว้ในเครื่อง</h5>
+          <div id="uploaded-files-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <!-- Dynamically populated from IndexedDB -->
+          </div>
+        </div>
+      </div>
+
+      <!-- PANE 7: สำรองข้อมูลและกู้คืน (Backup & Restore) -->
+      <div id="pane-backup" class="drawer-pane">
+        <h4 style="margin-bottom: 0.75rem; font-size: 0.95rem;">สำรองและกู้คืนข้อมูล (Backup & Restore)</h4>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+          ส่งออกข้อมูลเว็บไซต์ทั้งหมด (รวมถึงรูปภาพและไฟล์ที่อัปโหลด) เป็นไฟล์ JSON ก้อนเดียว เพื่อเก็บไว้เป็นหลักฐานหรือนำไปเปิดบนเครื่องอื่น
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem;">
+          <button id="btn-export-json" class="btn-cta btn-cta-primary">
+            <i class="fa-solid fa-file-arrow-down"></i> ส่งออกข้อมูลทั้งหมด (Export JSON)
+          </button>
+
+          <label class="btn-cta btn-cta-secondary" style="cursor: pointer; justify-content: center;">
+            <i class="fa-solid fa-file-arrow-up"></i> นำเข้าข้อมูลสำรอง (Import JSON)
+            <input type="file" id="input-import-backup" accept=".json" style="display: none;">
+          </label>
+        </div>
+
+        <div style="border-top: 1px dashed var(--border-subtle); padding-top: 1rem;">
+          <h5 style="color: #ef4444; font-size: 0.88rem; margin-bottom: 0.5rem;">รีเซ็ตเป็นค่าเริ่มต้น</h5>
+          <button id="btn-reset-default" class="admin-action-btn btn-danger" style="width: 100%; justify-content: center; padding: 0.6rem;">
+            <i class="fa-solid fa-arrows-rotate"></i> ล้างข้อมูลและคืนค่าโรงงาน (Reset All Data)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
