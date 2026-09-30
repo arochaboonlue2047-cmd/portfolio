@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40" shape-rendering="crispEdges">
+  <!-- Pixel Question Mark in Cyan -->
+  <rect x="12" y="6" width="16" height="4" fill="#00ffff"/>
+  <rect x="8" y="10" width="4" height="4" fill="#00ffff"/>
+  <rect x="28" y="10" width="4" height="8" fill="#00ffff"/>
+  <rect x="24" y="18" width="4" height="4" fill="#00ffff"/>
+  <rect x="20" y="22" width="4" height="6" fill="#00ffff"/>
+  <!-- Dot -->
+  <rect x="20" y="32" width="4" height="4" fill="#00ffff"/>
+</svg>

@@ -151,21 +151,33 @@ class TeletextManager {
       }
     });
 
-    // 10. Avatar Click / Drop support in Teletext Mode
-    const teleAvatarBall = document.querySelector(".tele-pixel-ball");
+    // 10. Hero Art Toggle (Pixel Ball <-> Dithered Avatar) & Drag-Drop
+    const heroWrapper = document.getElementById("tele-hero-art-wrapper");
+    const ballSvg = document.getElementById("tele-hero-ball-svg");
+    const avatarImg = document.getElementById("tele-avatar-img");
     const heroInput = document.getElementById("input-hero-avatar");
-    if (teleAvatarBall && heroInput) {
-      teleAvatarBall.addEventListener("click", () => heroInput.click());
-      teleAvatarBall.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        teleAvatarBall.style.boxShadow = "0 0 20px #ffff00";
+
+    if (heroWrapper) {
+      heroWrapper.addEventListener("click", (e) => {
+        // Toggle view between pixel soccer ball and avatar
+        if (ballSvg && avatarImg) {
+          const isBallVisible = ballSvg.style.display !== "none";
+          ballSvg.style.display = isBallVisible ? "none" : "block";
+          avatarImg.style.display = isBallVisible ? "block" : "none";
+          if (window.portfolioAudio) portfolioAudio.playPop();
+        }
       });
-      teleAvatarBall.addEventListener("dragleave", () => {
-        teleAvatarBall.style.boxShadow = "0 0 10px rgba(0, 255, 255, 0.6)";
-      });
-      teleAvatarBall.addEventListener("drop", (e) => {
+
+      heroWrapper.addEventListener("dragover", (e) => {
         e.preventDefault();
-        teleAvatarBall.style.boxShadow = "0 0 10px rgba(0, 255, 255, 0.6)";
+        heroWrapper.style.filter = "drop-shadow(0 0 15px #ffff00)";
+      });
+      heroWrapper.addEventListener("dragleave", () => {
+        heroWrapper.style.filter = "drop-shadow(0 0 6px rgba(0, 255, 255, 0.5))";
+      });
+      heroWrapper.addEventListener("drop", (e) => {
+        e.preventDefault();
+        heroWrapper.style.filter = "drop-shadow(0 0 6px rgba(0, 255, 255, 0.5))";
         if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
           const file = e.dataTransfer.files[0];
           const reader = new FileReader();
@@ -175,8 +187,11 @@ class TeletextManager {
               data.profile.avatar = ev.target.result;
               portfolioStorage.saveData(data, true);
             }
-            const ballImg = document.getElementById("tele-avatar-img");
-            if (ballImg) ballImg.src = ev.target.result;
+            if (avatarImg) {
+              avatarImg.src = ev.target.result;
+              avatarImg.style.display = "block";
+            }
+            if (ballSvg) ballSvg.style.display = "none";
             if (window.showToast) showToast("อัปเดตรูปโปรไฟล์ใหม่สำเร็จแล้ว!", "success");
           };
           reader.readAsDataURL(file);

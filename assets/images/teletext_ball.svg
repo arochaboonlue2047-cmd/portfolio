@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130" width="200" height="130" shape-rendering="crispEdges">
+  <defs>
+    <!-- Pixel Grid Pattern for Ball Surface -->
+    <pattern id="cyanGrid" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="#000000"/>
+      <rect width="3" height="3" fill="#00ffff"/>
+    </pattern>
+  </defs>
+
+  <g id="teletext-speed-lines">
+    <!-- Horizontal Cyan Speed Lines on Right -->
+    <!-- Line 1 -->
+    <rect x="116" y="24" width="22" height="4" fill="#00ffff"/>
+    <rect x="144" y="24" width="16" height="4" fill="#00ffff"/>
+    <rect x="166" y="24" width="14" height="4" fill="#00ffff"/>
+
+    <!-- Line 2 -->
+    <rect x="122" y="36" width="30" height="4" fill="#00ffff"/>
+    <rect x="158" y="36" width="28" height="4" fill="#00ffff"/>
+
+    <!-- Line 3 -->
+    <rect x="124" y="48" width="18" height="4" fill="#00ffff"/>
+    <rect x="148" y="48" width="26" height="4" fill="#00ffff"/>
+    <rect x="180" y="48" width="16" height="4" fill="#00ffff"/>
+
+    <!-- Line 4 -->
+    <rect x="122" y="60" width="36" height="4" fill="#00ffff"/>
+    <rect x="164" y="60" width="22" height="4" fill="#00ffff"/>
+
+    <!-- Line 5 -->
+    <rect x="120" y="72" width="24" height="4" fill="#00ffff"/>
+    <rect x="150" y="72" width="20" height="4" fill="#00ffff"/>
+    <rect x="176" y="72" width="14" height="4" fill="#00ffff"/>
+
+    <!-- Line 6 -->
+    <rect x="114" y="84" width="34" height="4" fill="#00ffff"/>
+    <rect x="154" y="84" width="18" height="4" fill="#00ffff"/>
+
+    <!-- Line 7 -->
+    <rect x="108" y="96" width="26" height="4" fill="#00ffff"/>
+    <rect x="140" y="96" width="16" height="4" fill="#00ffff"/>
+  </g>
+
+  <!-- Pixelated Soccer Ball Base Circle -->
+  <!-- Center: 64, 64; Radius approx 48 -->
+  <g id="ball-body">
+    <!-- Outer Pixelated Silhouette of Sphere -->
+    <!-- Stepped circle rows from y=16 to y=112 -->
+    <rect x="44" y="16" width="40" height="4" fill="#00ffff"/>
+    <rect x="36" y="20" width="56" height="4" fill="#00ffff"/>
+    <rect x="28" y="24" width="72" height="4" fill="#00ffff"/>
+    <rect x="24" y="28" width="80" height="4" fill="#00ffff"/>
+    <rect x="20" y="32" width="88" height="4" fill="#00ffff"/>
+    <rect x="16" y="36" width="96" height="8" fill="#00ffff"/>
+    <rect x="12" y="44" width="104" height="40" fill="#00ffff"/>
+    <rect x="16" y="84" width="96" height="8" fill="#00ffff"/>
+    <rect x="20" y="92" width="88" height="4" fill="#00ffff"/>
+    <rect x="24" y="96" width="80" height="4" fill="#00ffff"/>
+    <rect x="28" y="100" width="72" height="4" fill="#00ffff"/>
+    <rect x="36" y="104" width="56" height="4" fill="#00ffff"/>
+    <rect x="44" y="108" width="40" height="4" fill="#00ffff"/>
+
+    <!-- Overlay Cyan Grid Texture -->
+    <!-- Horizontal Grid Lines -->
+    <g fill="#000000">
+      <rect x="16" y="20" width="96" height="2"/>
+      <rect x="12" y="28" width="104" height="2"/>
+      <rect x="12" y="36" width="104" height="2"/>
+      <rect x="12" y="44" width="104" height="2"/>
+      <rect x="12" y="52" width="104" height="2"/>
+      <rect x="12" y="60" width="104" height="2"/>
+      <rect x="12" y="68" width="104" height="2"/>
+      <rect x="12" y="76" width="104" height="2"/>
+      <rect x="12" y="84" width="104" height="2"/>
+      <rect x="12" y="92" width="104" height="2"/>
+      <rect x="16" y="100" width="96" height="2"/>
+
+      <!-- Vertical Grid Lines -->
+      <rect x="20" y="16" width="2" height="96"/>
+      <rect x="28" y="16" width="2" height="96"/>
+      <rect x="36" y="16" width="2" height="96"/>
+      <rect x="44" y="16" width="2" height="96"/>
+      <rect x="52" y="16" width="2" height="96"/>
+      <rect x="60" y="16" width="2" height="96"/>
+      <rect x="68" y="16" width="2" height="96"/>
+      <rect x="76" y="16" width="2" height="96"/>
+      <rect x="84" y="16" width="2" height="96"/>
+      <rect x="92" y="16" width="2" height="96"/>
+      <rect x="100" y="16" width="2" height="96"/>
+      <rect x="108" y="16" width="2" height="96"/>
+    </g>
+
+    <!-- Black Soccer Ball Pentagon Patches (Teletext Mosaic Style) -->
+    <!-- 1. Center Pentagon -->
+    <polygon points="64,48 76,56 72,72 56,72 52,56" fill="#000000" stroke="#00ffff" stroke-width="2"/>
+
+    <!-- 2. Top Patch -->
+    <polygon points="64,16 74,26 64,34 54,26" fill="#000000" stroke="#00ffff" stroke-width="2"/>
+
+    <!-- 3. Bottom-Left Patch -->
+    <polygon points="34,80 46,78 48,90 38,102 26,94" fill="#000000" stroke="#00ffff" stroke-width="2"/>
+
+    <!-- 4. Bottom-Right Patch -->
+    <polygon points="94,80 82,78 80,90 90,102 102,94" fill="#000000" stroke="#00ffff" stroke-width="2"/>
+
+    <!-- 5. Top-Left Patch -->
+    <polygon points="20,44 32,46 36,34 26,26 16,36" fill="#000000" stroke="#00ffff" stroke-width="2"/>
+
+    <!-- 6. Top-Right Patch -->
+    <polygon points="108,44 96,46 92,34 102,26 112,36" fill="#000000" stroke="#00ffff" stroke-width="2"/>
+
+    <!-- 7. Seam Connector Lines between Patches (Cyan) -->
+    <line x1="64" y1="34" x2="64" y2="48" stroke="#00ffff" stroke-width="2"/>
+    <line x1="52" y1="56" x2="32" y2="46" stroke="#00ffff" stroke-width="2"/>
+    <line x1="76" y1="56" x2="96" y2="46" stroke="#00ffff" stroke-width="2"/>
+    <line x1="56" y1="72" x2="46" y2="78" stroke="#00ffff" stroke-width="2"/>
+    <line x1="72" y1="72" x2="82" y2="78" stroke="#00ffff" stroke-width="2"/>
+  </g>
+</svg>
