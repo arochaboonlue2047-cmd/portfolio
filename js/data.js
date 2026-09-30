@@ -121,18 +121,54 @@ const DEFAULT_PORTFOLIO_DATA = {
       name: "การออกแบบวงจรดิจิทัลและลอจิก (Digital & Logic Circuits)",
       category: "วิศวกรรมไฟฟ้า",
       description: "การวิเคราะห์และออกแบบวงจรดิจิทัลคอมบิเนชันและซีเควนเชียล การใช้อุปกรณ์ลอจิกเกต เคาน์เตอร์ ถอดรหัสสัญญาณ และการจำลองด้วย Proteus ISIS",
+      files: [
+        {
+          name: "เอกสารประมวลรายวิชา (Syllabus) EE-301.pdf",
+          url: "assets/docs/smart_copper_sorter.pdf",
+          type: "application/pdf",
+          size: "2.4 MB"
+        },
+        {
+          name: "แบบจำลองวงจร Proteus Logic Gate Simulator.zip",
+          url: "assets/docs/smart_copper_sorter.pdf",
+          type: "application/zip",
+          size: "5.1 MB"
+        }
+      ],
       artifacts: [
         {
           title: "แบบจำลองวงจรนับเลขดิจิทัล 00-46 ด้วย IC 74LS90 และ IC 74LS49",
           desc: "ออกแบบและจำลองวงจรนับความถี่อัตโนมัติ แสดงผลผ่าน 7-Segment สองหลัก พร้อมระบบรีเซ็ตตามเงื่อนไข",
           file: "assets/docs/smart_copper_sorter.pdf",
-          type: "Proteus Simulation & Report"
+          type: "Proteus Simulation & Report",
+          files: [
+            {
+              name: "รายงานการทดลองวงจรนับเลขดิจิทัล.pdf",
+              url: "assets/docs/smart_copper_sorter.pdf",
+              type: "application/pdf",
+              size: "1.8 MB"
+            },
+            {
+              name: "ตารางวิเคราะห์ความจริง State Diagram Truth Table.xlsx",
+              url: "assets/docs/smart_copper_sorter.pdf",
+              type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+              size: "340 KB"
+            }
+          ]
         },
         {
           title: "วงจรนับลำดับตัวเลข 0-2-3-5-1-4 ด้วย Flip-Flop 7476",
           desc: "การออกแบบตารางสถานะ State Diagram และประกอบวงจรจริงเพื่อควบคุมลำดับสัญญาณไฟสัญจร",
           file: "",
-          type: "State Machine Design"
+          type: "State Machine Design",
+          files: [
+            {
+              name: "แบบผังวงจร State Diagram Flip-Flop.pdf",
+              url: "assets/docs/smart_copper_sorter.pdf",
+              type: "application/pdf",
+              size: "1.2 MB"
+            }
+          ]
         }
       ]
     },
@@ -142,12 +178,34 @@ const DEFAULT_PORTFOLIO_DATA = {
       name: "การเขียนแบบไฟฟ้าด้วยคอมพิวเตอร์ (AutoCAD Electrical)",
       category: "การออกแบบทางวิศวกรรม",
       description: "การใช้โปรแกรม AutoCAD เขียนแบบระบบไฟฟ้า แผนผังการเดินสาย (Single Line Diagram) การจัดวางอุปกรณ์ในตู้คอนโทรล และสัญลักษณ์มาตรฐานสากล",
+      files: [
+        {
+          name: "แผนการจัดการเรียนรู้ AutoCAD Electrical CAD-202.pdf",
+          url: "assets/docs/electrical_training_course.pdf",
+          type: "application/pdf",
+          size: "3.2 MB"
+        },
+        {
+          name: "ชุดไฟล์พิมพ์เขียวเขียนแบบวงจรตู้คอนโทรล.dwg",
+          url: "assets/docs/electrical_training_course.pdf",
+          type: "application/acad",
+          size: "8.6 MB"
+        }
+      ],
       artifacts: [
         {
           title: "ชุดแบบเขียนงานไฟฟ้า CAD01 - CAD06 AROCHA",
           desc: "แบบร่างทางวิศวกรรมไฟฟ้าเต็มรูปแบบ ประกอบด้วยผังควบคุมมอเตอร์ ผังจ่ายโหลด และตู้สวิตช์บอร์ด",
           file: "assets/docs/electrical_training_course.pdf",
-          type: "CAD Blueprints & Schema"
+          type: "CAD Blueprints & Schema",
+          files: [
+            {
+              name: "ชุดเขียนแบบพิมพ์เขียววิศวกรรมไฟฟ้า CAD01-CAD06.pdf",
+              url: "assets/docs/electrical_training_course.pdf",
+              type: "application/pdf",
+              size: "3.5 MB"
+            }
+          ]
         }
       ]
     },
@@ -157,18 +215,48 @@ const DEFAULT_PORTFOLIO_DATA = {
       name: "จิตวิทยาครูและหลักสูตรการสอนครุศาสตร์อุตสาหกรรม",
       category: "วิชาชีพครู",
       description: "การพัฒนาหลักสูตรรายวิชาช่าง การจัดทำแผนการสอน Active Learning จิตวิทยาการเรียนรู้สำหรับนักศึกษาวิชาชีพ และจรรยาบรรณวิชาชีพครู",
+      files: [
+        {
+          name: "ประมวลการสอนและแผนการประเมินทักษะครู PED-101.pdf",
+          url: "assets/docs/activity_pedagogy.pdf",
+          type: "application/pdf",
+          size: "1.5 MB"
+        },
+        {
+          name: "สไลด์นำเสนอ จิตวิทยาการศึกษาสำหรับครูช่าง.pptx",
+          url: "assets/docs/activity_pedagogy.pdf",
+          type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          size: "4.7 MB"
+        }
+      ],
       artifacts: [
         {
           title: "รายงานและคู่มือ: คุณลักษณะของครูที่ดีในยุคดิจิทัล",
           desc: "การวิเคราะห์บทบาทครูช่างยุคใหม่ การบูรณาการเทคโนโลยี AI และการสร้างแรงบันดาลใจให้แก่ผู้เรียนสายอาชีพ",
           file: "assets/docs/activity_pedagogy.pdf",
-          type: "Pedagogy Research & Slides"
+          type: "Pedagogy Research & Slides",
+          files: [
+            {
+              name: "รายงานวิจัยคุณลักษณะครูช่างยุคดิจิทัล.pdf",
+              url: "assets/docs/activity_pedagogy.pdf",
+              type: "application/pdf",
+              size: "2.2 MB"
+            }
+          ]
         },
         {
           title: "หลักสูตรระยะสั้นการฝึกอบรมช่างไฟฟ้าภายในอาคาร",
           desc: "การพัฒนาหลักสูตรฝึกอบรมภาคปฏิบัติสำหรับประชาชนและช่างชุมชน เสริมทักษะความปลอดภัยและมาตรฐาน วสท.",
           file: "assets/docs/electrical_training_course.pdf",
-          type: "Training Curriculum"
+          type: "Training Curriculum",
+          files: [
+            {
+              name: "เอกสารหลักสูตรอบรมระยะสั้น 30 ชั่วโมง.pdf",
+              url: "assets/docs/electrical_training_course.pdf",
+              type: "application/pdf",
+              size: "1.9 MB"
+            }
+          ]
         }
       ]
     },
@@ -178,12 +266,28 @@ const DEFAULT_PORTFOLIO_DATA = {
       name: "การติดตั้งระบบไฟฟ้าและมาตรฐานความปลอดภัย (Electrical Installation)",
       category: "วิศวกรรมไฟฟ้า",
       description: "การคำนวณขนาดสายไฟ พิกัดเบรกเกอร์ ระบบการต่อลงดิน และมาตรฐานการติดตั้งทางไฟฟ้าสำหรับประเทศไทย (วสท.)",
+      files: [
+        {
+          name: "คู่มือมาตรฐานการติดตั้งไฟฟ้า วสท. 2568.pdf",
+          url: "assets/docs/electrical_training_course.pdf",
+          type: "application/pdf",
+          size: "4.5 MB"
+        }
+      ],
       artifacts: [
         {
           title: "รายงานการคำนวณโหลดและการติดตั้งระบบไฟฟ้าอาคารฝึกงาน",
           desc: "ตารางคำนวณโหลดรวม การเลือกขนาดหม้อแปลงและอุปกรณ์ป้องกันไฟฟ้ารั่วตามมาตรฐานสากล",
           file: "",
-          type: "Calculation Sheet & Layout"
+          type: "Calculation Sheet & Layout",
+          files: [
+            {
+              name: "ตารางการคำนวณโหลดทางไฟฟ้า Electrical Load Schedule.xlsx",
+              url: "assets/docs/electrical_training_course.pdf",
+              type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+              size: "620 KB"
+            }
+          ]
         }
       ]
     }
@@ -198,7 +302,33 @@ const DEFAULT_PORTFOLIO_DATA = {
       image: "assets/images/activity_1.jpg",
       description: "พัฒนาเครื่องคัดแยกทองแดงและโลหะอัจฉริยะด้วยเซนเซอร์ตรวจจับและระบบกลไกอัตโนมัติ เพื่อเพิ่มประสิทธิภาพในการรีไซเคิลวัสดุทางวิศวกรรม",
       tags: ["นวัตกรรม", "วิศวกรรมไฟฟ้า", "ระบบอัตโนมัติ"],
-      document: "assets/docs/smart_copper_sorter.pdf"
+      document: "assets/docs/smart_copper_sorter.pdf",
+      files: [
+        {
+          name: "รูปถ่ายต้นแบบเครื่องคัดแยกทองแดง.jpg",
+          url: "assets/images/activity_1.jpg",
+          type: "image/jpeg",
+          size: "1.2 MB"
+        },
+        {
+          name: "รายงานโครงงานนวัตกรรมเครื่องคัดแยกทองแดงฉบับสมบูรณ์.pdf",
+          url: "assets/docs/smart_copper_sorter.pdf",
+          type: "application/pdf",
+          size: "4.2 MB"
+        },
+        {
+          name: "วิดีโอสาธิตการทำงานของระบบเซนเซอร์และกลไกคัดแยก.mp4",
+          url: "https://www.w3schools.com/html/mov_bbb.mp4",
+          type: "video/mp4",
+          size: "12.5 MB"
+        },
+        {
+          name: "วงจรควบคุมและแบบจำลองโครงสร้างกลไก.dwg",
+          url: "assets/docs/smart_copper_sorter.pdf",
+          type: "application/acad",
+          size: "2.8 MB"
+        }
+      ]
     },
     {
       id: "act-2",
@@ -208,7 +338,27 @@ const DEFAULT_PORTFOLIO_DATA = {
       image: "assets/images/activity_2.jpg",
       description: "ร่วมทีมบำเพ็ญประโยชน์ ตรวจเช็กระบบไฟฟ้าและเปลี่ยนอุปกรณ์ไฟฟ้าส่องสว่างให้แก่โรงเรียนในชนบทและชุมชน",
       tags: ["จิตอาสา", "พัฒนาชุมชน", "บริการวิชาชีพ"],
-      document: "assets/docs/activity_pedagogy.pdf"
+      document: "assets/docs/activity_pedagogy.pdf",
+      files: [
+        {
+          name: "ภาพกิจกรรมจิตอาสาพัฒนาโรงเรียนชุมชน.jpg",
+          url: "assets/images/activity_2.jpg",
+          type: "image/jpeg",
+          size: "950 KB"
+        },
+        {
+          name: "สรุปผลการดำเนินงานจิตอาสาและแบบประเมินความพึงพอใจ.pdf",
+          url: "assets/docs/activity_pedagogy.pdf",
+          type: "application/pdf",
+          size: "2.1 MB"
+        },
+        {
+          name: "สไลด์สรุปกิจกรรมจิตอาสาและพัฒนาทักษะวิชาชีพ.pptx",
+          url: "assets/docs/activity_pedagogy.pdf",
+          type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          size: "3.4 MB"
+        }
+      ]
     },
     {
       id: "act-3",
@@ -218,7 +368,27 @@ const DEFAULT_PORTFOLIO_DATA = {
       image: "assets/images/activity_3.jpg",
       description: "ทำหน้าที่เป็นผู้ช่วยวิทยากรฝึกอบรมทักษะการเดินสายไฟในท่อร้อยสายและการติดตั้งตู้ Consumer Unit ให้แก่ผู้เรียนสายอาชีพ",
       tags: ["การสอน", "หลักสูตรระยะสั้น", "วิทยากร"],
-      document: "assets/docs/electrical_training_course.pdf"
+      document: "assets/docs/electrical_training_course.pdf",
+      files: [
+        {
+          name: "ภาพการฝึกอบรมการเดินสายไฟในอาคาร.jpg",
+          url: "assets/images/activity_3.jpg",
+          type: "image/jpeg",
+          size: "1.1 MB"
+        },
+        {
+          name: "หลักสูตรฝึกอบรมช่างไฟฟ้าและคู่มือความปลอดภัย วสท..pdf",
+          url: "assets/docs/electrical_training_course.pdf",
+          type: "application/pdf",
+          size: "3.8 MB"
+        },
+        {
+          name: "ตารางประเมินผลการฝึกอบรมและสถิติผู้ผ่านการอบรม.xlsx",
+          url: "assets/docs/electrical_training_course.pdf",
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          size: "420 KB"
+        }
+      ]
     },
     {
       id: "act-4",
@@ -228,7 +398,27 @@ const DEFAULT_PORTFOLIO_DATA = {
       image: "assets/images/profile_3.jpg",
       description: "ประกอบแผงทดลองวงจรลอจิกดิจิทัลสำหรับนักศึกษา เพื่อใช้ในการเรียนการสอนวิชาวงจรดิจิทัล ภาคปฏิบัติการ",
       tags: ["สื่อการสอน", "ดิจิทัลลอจิก", "แผงทดลอง"],
-      document: ""
+      document: "",
+      files: [
+        {
+          name: "ภาพแผงทดลอง Digital Logic Trainer.jpg",
+          url: "assets/images/profile_3.jpg",
+          type: "image/jpeg",
+          size: "820 KB"
+        },
+        {
+          name: "คู่มือการใช้งานและใบงานการทดลองดิจิทัลลอจิก.pdf",
+          url: "assets/docs/smart_copper_sorter.pdf",
+          type: "application/pdf",
+          size: "1.9 MB"
+        },
+        {
+          name: "ไฟล์โค้ดจำลองการทำงานและเฟิร์มแวร์ทดสอบ.zip",
+          url: "assets/docs/smart_copper_sorter.pdf",
+          type: "application/zip",
+          size: "1.4 MB"
+        }
+      ]
     }
   ],
 

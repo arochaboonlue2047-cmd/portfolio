@@ -68,6 +68,101 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // -------------------------------------------------------------
+  // FILE & MEDIA ATTACHMENT HELPERS
+  // -------------------------------------------------------------
+
+  function formatFileSize(bytes) {
+    if (!bytes || isNaN(bytes)) return "";
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+  }
+
+  function parseFileInfo(fileOrObj, customTitle = "") {
+    if (!fileOrObj) return null;
+
+    let url = "";
+    let name = "";
+    let size = "";
+    let rawType = "";
+
+    if (typeof fileOrObj === "string") {
+      url = fileOrObj;
+      name = customTitle || url.split("/").pop().split("?")[0] || "ไฟล์แนบ";
+    } else if (typeof fileOrObj === "object") {
+      url = fileOrObj.url || fileOrObj.file || fileOrObj.src || "";
+      name = fileOrObj.name || fileOrObj.title || customTitle || (url ? url.split("/").pop().split("?")[0] : "ไฟล์แนบ");
+      size = fileOrObj.sizeFormatted || (fileOrObj.size ? (typeof fileOrObj.size === "number" ? formatFileSize(fileOrObj.size) : fileOrObj.size) : "");
+      rawType = fileOrObj.type || fileOrObj.category || "";
+    }
+
+    const ext = (url.split(".").pop() || "").split("?")[0].toLowerCase();
+
+    let category = "file";
+    let icon = "📄";
+    let faIcon = "fa-solid fa-file";
+    let label = ext ? ext.toUpperCase() : "FILE";
+
+    if (/^(jpg|jpeg|png|gif|webp|svg|bmp)$/i.test(ext) || rawType.startsWith("image/")) {
+      category = "image";
+      icon = "🖼️";
+      faIcon = "fa-solid fa-file-image";
+      label = ext ? ext.toUpperCase() : "IMG";
+    } else if (/^(pdf)$/i.test(ext) || rawType === "application/pdf") {
+      category = "pdf";
+      icon = "📕";
+      faIcon = "fa-solid fa-file-pdf";
+      label = "PDF";
+    } else if (/^(mp4|webm|ogg|mov)$/i.test(ext) || rawType.startsWith("video/")) {
+      category = "video";
+      icon = "🎬";
+      faIcon = "fa-solid fa-file-video";
+      label = "VIDEO";
+    } else if (url.includes("youtube.com") || url.includes("youtu.be")) {
+      category = "youtube";
+      icon = "▶️";
+      faIcon = "fa-brands fa-youtube";
+      label = "YOUTUBE";
+    } else if (/^(doc|docx)$/i.test(ext) || rawType.includes("word")) {
+      category = "document";
+      icon = "📝";
+      faIcon = "fa-solid fa-file-word";
+      label = "DOCX";
+    } else if (/^(ppt|pptx)$/i.test(ext) || rawType.includes("presentation")) {
+      category = "presentation";
+      icon = "📊";
+      faIcon = "fa-solid fa-file-powerpoint";
+      label = "PPTX";
+    } else if (/^(xls|xlsx|csv)$/i.test(ext) || rawType.includes("spreadsheet") || rawType.includes("excel")) {
+      category = "spreadsheet";
+      icon = "📈";
+      faIcon = "fa-solid fa-file-excel";
+      label = "EXCEL";
+    } else if (/^(zip|rar|7z|tar|gz)$/i.test(ext) || rawType.includes("zip") || rawType.includes("compressed")) {
+      category = "archive";
+      icon = "🗜️";
+      faIcon = "fa-solid fa-file-zipper";
+      label = "ZIP";
+    } else if (/^(dwg|dxf|cad)$/i.test(ext)) {
+      category = "cad";
+      icon = "📐";
+      faIcon = "fa-solid fa-drafting-compass";
+      label = "CAD/DWG";
+    }
+
+    return {
+      url,
+      name,
+      ext,
+      category,
+      icon,
+      faIcon,
+      label,
+      size: size || (typeof fileOrObj === "object" && typeof fileOrObj.size === "number" ? formatFileSize(fileOrObj.size) : "")
+    };
+  }
+
+  // -------------------------------------------------------------
   // SUPABASE REALTIME & ANTI-STALE SYNC CONTROLLER
   // -------------------------------------------------------------
 
@@ -594,13 +689,38 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (container) {
       container.innerHTML = courses.map(course => `
-        <div class="course-card">
-          <div class="course-meta">
-            <span class="course-code">${course.code}</span>
-            <span class="course-category"><i class="fa-solid fa-tag"></i> ${course.category}</span>
+        <div class="course-card drag-target-zone course-card-drop-zone" data-course-id="${course.id}" title="ลากไฟล์เอกสารหรือรูปภาพมาวางที่การ์ดนี้เพื่อแนบไฟล์ทันที">
+          <div class="course-meta" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <span class="course-code">${course.code}</span>
+              <span class="course-category"><i class="fa-solid fa-tag"></i> ${course.category}</span>
+            </div>
+            <button class="btn-view-course" data-id="${course.id}" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.25rem 0.6rem; font-size: 0.78rem; color: var(--primary); cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;" title="ดูไฟล์และสื่อทั้งหมด">
+              <i class="fa-solid fa-expand"></i> ดูไฟล์ทั้งหมด
+            </button>
           </div>
           <h3 class="course-name">${course.name}</h3>
           <p class="course-description">${course.description}</p>
+
+          ${course.files && course.files.length ? `
+            <div style="margin-top: 0.75rem; padding-top: 0.6rem; border-top: 1px dashed var(--border-subtle);">
+              <div style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.35rem;">
+                <i class="fa-solid fa-paperclip" style="color: var(--primary);"></i> ไฟล์แนบประจำวิชา (${course.files.length} ไฟล์):
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+                ${course.files.map(f => {
+                  const p = parseFileInfo(f);
+                  return `
+                    <a href="${p.url}" target="_blank" class="artifact-action" style="padding: 0.25rem 0.55rem; font-size: 0.75rem; border-radius: 4px; display: inline-flex; align-items: center; gap: 0.35rem; text-decoration: none;" title="${p.name}">
+                      <i class="${p.faIcon}"></i>
+                      <span style="max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${p.name}</span>
+                      ${p.size ? `<span style="font-size: 0.7rem; opacity: 0.75;">(${p.size})</span>` : ''}
+                    </a>
+                  `;
+                }).join("")}
+              </div>
+            </div>
+          ` : ''}
 
           ${course.artifacts && course.artifacts.length ? `
             <div class="artifacts-wrapper">
@@ -612,7 +732,19 @@ document.addEventListener("DOMContentLoaded", async () => {
                       <h6 class="artifact-name">${art.title}</h6>
                       <p class="artifact-desc">${art.desc}</p>
                     </div>
-                    ${art.file ? `
+                    ${art.files && art.files.length ? `
+                      <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem;">
+                        ${art.files.map(af => {
+                          const ap = parseFileInfo(af);
+                          return `
+                            <a href="${ap.url}" target="_blank" class="artifact-action" style="padding: 0.2rem 0.45rem; font-size: 0.72rem; border-radius: 4px; display: inline-flex; align-items: center; gap: 0.25rem; text-decoration: none;" title="${ap.name}">
+                              <i class="${ap.faIcon}"></i>
+                              <span style="max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${ap.name}</span>
+                            </a>
+                          `;
+                        }).join("")}
+                      </div>
+                    ` : (art.file ? `
                       <a href="${art.file}" target="_blank" class="artifact-action" title="เปิดเอกสารชิ้นงาน">
                         <i class="fa-solid fa-file-pdf"></i> เปิดเอกสาร / ดาวน์โหลด (${art.type || 'PDF'})
                       </a>
@@ -620,7 +752,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                       <span style="font-size: 0.78rem; color: var(--text-muted);">
                         <i class="fa-solid fa-circle-check" style="color: var(--accent-mint);"></i> ชิ้นงานโครงงานภาคปฏิบัติ
                       </span>
-                    `}
+                    `)}
                   </div>
                 `).join("")}
               </div>
@@ -635,7 +767,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         <div style="background: var(--bg-page); border: 1px solid var(--border-subtle); padding: 0.75rem; border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center;">
           <div>
             <strong style="font-size: 0.88rem;">${c.code}: ${c.name}</strong>
-            <div style="font-size: 0.78rem; color: var(--text-muted);">${c.category} (${c.artifacts ? c.artifacts.length : 0} ชิ้นงาน)</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">${c.category} (${(c.files ? c.files.length : 0) + (c.artifacts ? c.artifacts.length : 0)} ไฟล์/ชิ้นงาน)</div>
           </div>
           <div style="display: flex; gap: 0.35rem;">
             <button class="admin-action-btn btn-light btn-edit-course" data-id="${c.id}" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" title="แก้ไข">
@@ -660,10 +792,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (container) {
       container.innerHTML = filtered.map(act => `
-        <div class="activity-card drag-target-zone" data-activity-id="${act.id}" title="ลากไฟล์รูปมาวางที่การ์ดนี้เพื่อเปลี่ยนภาพปกทันที">
-          <div class="activity-thumb-wrapper">
+        <div class="activity-card drag-target-zone activity-card-drop-zone" data-activity-id="${act.id}" title="ลากไฟล์รูปหรือเอกสารมาวางที่การ์ดนี้เพื่อแนบไฟล์ทันที">
+          <div class="activity-thumb-wrapper" style="position: relative;">
             <img src="${act.image || 'assets/images/activity_1.jpg'}" alt="${act.title}" class="activity-thumb">
             <span class="activity-category-tag">${act.category}</span>
+            ${act.files && act.files.length > 0 ? `
+              <div style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.75); color: #fff; padding: 2px 7px; border-radius: 12px; font-size: 0.72rem; display: flex; align-items: center; gap: 4px; backdrop-filter: blur(4px);">
+                <i class="fa-solid fa-paperclip" style="color: var(--primary);"></i> ${act.files.length} ไฟล์
+              </div>
+            ` : ''}
           </div>
           <div class="activity-body">
             <div class="activity-date"><i class="fa-regular fa-clock"></i> ${act.date}</div>
@@ -672,9 +809,25 @@ document.addEventListener("DOMContentLoaded", async () => {
             <div class="activity-tags">
               ${(act.tags || []).map(t => `<span class="tag-pill">#${t}</span>`).join("")}
             </div>
+
+            ${act.files && act.files.length > 0 ? `
+              <div style="display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.5rem; padding-top: 0.4rem; border-top: 1px dashed var(--border-subtle);">
+                ${act.files.slice(0, 3).map(f => {
+                  const p = parseFileInfo(f);
+                  return `
+                    <span style="font-size: 0.7rem; background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 2px 6px; border-radius: 4px; display: inline-flex; align-items: center; gap: 3px; max-width: 120px;" title="${p.name}">
+                      <i class="${p.faIcon}" style="color: var(--primary);"></i>
+                      <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${p.name}</span>
+                    </span>
+                  `;
+                }).join("")}
+                ${act.files.length > 3 ? `<span style="font-size: 0.7rem; color: var(--primary); align-self: center;">+${act.files.length - 3}</span>` : ''}
+              </div>
+            ` : ''}
+
             <div class="activity-footer">
               <span class="activity-view-btn btn-view-activity" data-id="${act.id}">
-                <i class="fa-solid fa-expand"></i> ดูรายละเอียด
+                <i class="fa-solid fa-expand"></i> ดูรายละเอียด & ไฟล์
               </span>
               ${act.document ? `
                 <a href="${act.document}" target="_blank" class="activity-view-btn" style="color: var(--secondary);">
@@ -705,7 +858,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <img src="${act.image || 'assets/images/activity_1.jpg'}" style="width: 38px; height: 38px; border-radius: 4px; object-fit: cover;">
             <div>
               <strong style="font-size: 0.85rem;">${act.title}</strong>
-              <div style="font-size: 0.75rem; color: var(--text-muted);">${act.category} (${act.date})</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">${act.category} (${act.files ? act.files.length : 1} ไฟล์)</div>
             </div>
           </div>
           <div style="display: flex; gap: 0.35rem;">
@@ -740,6 +893,162 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (btnClose) btnClose.addEventListener("click", closeModal);
     if (btnCancel) btnCancel.addEventListener("click", closeModal);
+
+    let currentModalFiles = [];
+
+    function renderModalFilesList(containerId, filesArray, coverInputId = null) {
+      const listEl = document.getElementById(containerId);
+      if (!listEl) return;
+
+      if (!filesArray || filesArray.length === 0) {
+        listEl.innerHTML = `<div style="text-align: center; font-size: 0.78rem; color: var(--text-muted); padding: 0.6rem; border: 1px dashed var(--border-subtle); border-radius: var(--radius-sm);">ยังไม่มีไฟล์แนบ (สามารถคลิกหรือลากไฟล์มาวางด้านบนเพื่อเพิ่มได้)</div>`;
+        return;
+      }
+
+      listEl.innerHTML = filesArray.map((f, idx) => {
+        const p = parseFileInfo(f);
+        const coverInput = coverInputId ? document.getElementById(coverInputId) : null;
+        const isCover = coverInput && coverInput.value === p.url;
+        return `
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.45rem 0.6rem; background: var(--bg-page); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); gap: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; overflow: hidden; flex: 1;">
+              <i class="${p.faIcon}" style="font-size: 1.1rem; color: var(--primary); flex-shrink: 0;"></i>
+              <div style="overflow: hidden; flex: 1;">
+                <div style="font-size: 0.8rem; font-weight: 600; color: var(--text-primary); text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${p.name}</div>
+                <div style="font-size: 0.68rem; color: var(--text-muted); display: flex; gap: 0.4rem; align-items: center;">
+                  <span style="background: var(--bg-surface); padding: 1px 4px; border-radius: 3px; border: 1px solid var(--border-subtle); font-size: 0.65rem;">${p.label}</span>
+                  ${p.size ? `<span>${p.size}</span>` : ''}
+                  ${isCover ? '<span style="color: #f59e0b; font-weight: 700;">⭐ ภาพปก</span>' : ''}
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.3rem; flex-shrink: 0;">
+              ${coverInputId && p.category === "image" ? `
+                <button type="button" class="admin-action-btn btn-light btn-set-cover" data-idx="${idx}" style="padding: 0.2rem 0.45rem; font-size: 0.7rem;" title="ตั้งเป็นภาพปก">
+                  ⭐ ปก
+                </button>
+              ` : ''}
+              <a href="${p.url}" target="_blank" class="admin-action-btn btn-light" style="padding: 0.2rem 0.45rem; font-size: 0.7rem; text-decoration: none;" title="เปิดดูไฟล์">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+              <button type="button" class="admin-action-btn btn-danger btn-remove-modal-file" data-idx="${idx}" style="padding: 0.2rem 0.45rem; font-size: 0.7rem;" title="ลบไฟล์">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      // Wire remove buttons
+      listEl.querySelectorAll(".btn-remove-modal-file").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const idx = parseInt(btn.dataset.idx, 10);
+          filesArray.splice(idx, 1);
+          renderModalFilesList(containerId, filesArray, coverInputId);
+        });
+      });
+
+      // Wire set cover buttons
+      if (coverInputId) {
+        listEl.querySelectorAll(".btn-set-cover").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const idx = parseInt(btn.dataset.idx, 10);
+            const p = parseFileInfo(filesArray[idx]);
+            const coverInput = document.getElementById(coverInputId);
+            const imgPreview = document.getElementById("modal-act-img-preview");
+            if (coverInput) coverInput.value = p.url;
+            if (imgPreview) imgPreview.src = p.url;
+            renderModalFilesList(containerId, filesArray, coverInputId);
+            showToast("ตั้งเป็นภาพปกเรียบร้อยแล้วค่ะ!", "success");
+          });
+        });
+      }
+    }
+
+    function wireMultiFileUpload({ dropzone, fileInput, urlInput, btnAddUrl, filesArray, containerId, coverInputId, imgPreview }) {
+      if (!dropzone || !fileInput) return;
+
+      dropzone.addEventListener("click", () => fileInput.click());
+
+      fileInput.addEventListener("change", async (e) => {
+        const files = Array.from(e.target.files || []);
+        if (files.length === 0) return;
+        showToast(`🔄 กำลังอัปโหลด ${files.length} ไฟล์...`, "info");
+        for (const f of files) {
+          const res = await portfolioSupabase.uploadFile(f);
+          if (res.success && res.url) {
+            const fileObj = {
+              name: res.name || f.name,
+              url: res.url,
+              size: res.size || formatFileSize(f.size),
+              type: res.type || f.type
+            };
+            filesArray.push(fileObj);
+            if (coverInputId && imgPreview && parseFileInfo(fileObj)?.category === "image") {
+              const coverInp = document.getElementById(coverInputId);
+              if (coverInp && !coverInp.value) {
+                coverInp.value = fileObj.url;
+                imgPreview.src = fileObj.url;
+              }
+            }
+          }
+        }
+        fileInput.value = "";
+        renderModalFilesList(containerId, filesArray, coverInputId);
+        showToast("✅ อัปโหลดไฟล์เรียบร้อยแล้วค่ะ", "success");
+      });
+
+      dropzone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropzone.classList.add("drag-active");
+      });
+      dropzone.addEventListener("dragleave", () => dropzone.classList.remove("drag-active"));
+      dropzone.addEventListener("drop", async (e) => {
+        e.preventDefault();
+        dropzone.classList.remove("drag-active");
+        const files = Array.from(e.dataTransfer.files || []);
+        if (files.length === 0) return;
+        showToast(`🔄 กำลังอัปโหลด ${files.length} ไฟล์...`, "info");
+        for (const f of files) {
+          const res = await portfolioSupabase.uploadFile(f);
+          if (res.success && res.url) {
+            const fileObj = {
+              name: res.name || f.name,
+              url: res.url,
+              size: res.size || formatFileSize(f.size),
+              type: res.type || f.type
+            };
+            filesArray.push(fileObj);
+            if (coverInputId && imgPreview && parseFileInfo(fileObj)?.category === "image") {
+              const coverInp = document.getElementById(coverInputId);
+              if (coverInp && !coverInp.value) {
+                coverInp.value = fileObj.url;
+                imgPreview.src = fileObj.url;
+              }
+            }
+          }
+        }
+        renderModalFilesList(containerId, filesArray, coverInputId);
+        showToast("✅ อัปโหลดไฟล์เรียบร้อยแล้วค่ะ", "success");
+      });
+
+      if (btnAddUrl && urlInput) {
+        btnAddUrl.addEventListener("click", () => {
+          const urlVal = urlInput.value.trim();
+          if (!urlVal) return;
+          const parsed = parseFileInfo(urlVal);
+          filesArray.push({
+            name: parsed.name,
+            url: urlVal,
+            type: parsed.category === "youtube" ? "video/youtube" : (parsed.category === "image" ? "image/jpeg" : "application/octet-stream"),
+            size: ""
+          });
+          urlInput.value = "";
+          renderModalFilesList(containerId, filesArray, coverInputId);
+          showToast("เพิ่มไฟล์จาก URL เรียบร้อย", "success");
+        });
+      }
+    }
 
     // Open Modal for different entities
     window.openUniversalModal = function(config) {
@@ -819,6 +1128,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         `;
       } else if (entity === "course") {
         titleText.textContent = mode === "add" ? "เพิ่มรายวิชาใหม่" : "แก้ไขรายวิชาและชิ้นงาน";
+        currentModalFiles = Array.isArray(data?.files) ? JSON.parse(JSON.stringify(data.files)) : [];
         body.innerHTML = `
           <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 0.75rem;">
             <div class="form-group">
@@ -838,9 +1148,45 @@ document.addEventListener("DOMContentLoaded", async () => {
             <label class="form-label">คำอธิบายรายวิชา</label>
             <textarea id="course-input-desc" class="form-textarea" rows="2">${data?.description || ''}</textarea>
           </div>
+
+          <!-- Course Multi-Files Attachment Section -->
+          <div class="form-group" style="margin-top: 1rem; border-top: 1px dashed var(--border-subtle); padding-top: 0.75rem;">
+            <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
+              <span><i class="fa-solid fa-paperclip" style="color: var(--primary);"></i> ไฟล์แนบและเอกสารประกอบรายวิชา</span>
+              <span style="font-size: 0.72rem; color: var(--text-muted);">PDF, Word, Excel, CAD, Video, ZIP</span>
+            </label>
+            <div class="dropzone drag-target-zone" id="modal-course-dropzone" style="padding: 1rem; text-align: center; cursor: pointer; border: 2px dashed var(--border-subtle); border-radius: var(--radius-sm);">
+              <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.5rem; color: var(--primary); margin-bottom: 0.25rem;"></i>
+              <div style="font-size: 0.82rem; font-weight: 600;">คลิกหรือลากไฟล์หลายชนิดมาวางที่นี่เพื่ออัปโหลด</div>
+              <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.2rem;">อัปโหลดได้พร้อมกันหลายไฟล์</div>
+              <input type="file" id="modal-course-file-input" multiple style="display: none;">
+            </div>
+            <div style="display: flex; gap: 0.4rem; margin-top: 0.4rem;">
+              <input type="text" id="modal-course-url-input" class="form-input" placeholder="หรือใส่ URL ลิงก์ไฟล์ / เอกสารคลาวด์..." style="font-size: 0.8rem;">
+              <button type="button" id="modal-course-btn-add-url" class="btn-light" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; white-space: nowrap;">
+                <i class="fa-solid fa-plus"></i> เพิ่มจาก URL
+              </button>
+            </div>
+            <div id="modal-course-files-list" style="margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.35rem; max-height: 180px; overflow-y: auto;"></div>
+          </div>
         `;
+
+        renderModalFilesList("modal-course-files-list", currentModalFiles);
+        wireMultiFileUpload({
+          dropzone: document.getElementById("modal-course-dropzone"),
+          fileInput: document.getElementById("modal-course-file-input"),
+          urlInput: document.getElementById("modal-course-url-input"),
+          btnAddUrl: document.getElementById("modal-course-btn-add-url"),
+          filesArray: currentModalFiles,
+          containerId: "modal-course-files-list"
+        });
+
       } else if (entity === "activity") {
         titleText.textContent = mode === "add" ? "เพิ่มผลงาน / กิจกรรมใหม่" : "แก้ไขผลงานและกิจกรรม";
+        currentModalFiles = Array.isArray(data?.files) ? JSON.parse(JSON.stringify(data.files)) : [];
+        if (data?.document && !currentModalFiles.some(f => (typeof f === 'string' ? f : f.url) === data.document)) {
+          currentModalFiles.push({ name: data.document.split("/").pop(), url: data.document, type: "application/pdf" });
+        }
         body.innerHTML = `
           <div class="form-group">
             <label class="form-label">ชื่อโครงงาน / กิจกรรม</label>
@@ -862,13 +1208,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             </div>
           </div>
           <div class="form-group">
-            <label class="form-label">รูปภาพประกอบ (คลิกหรือลากไฟล์ภาพมาวาง)</label>
-            <div class="dropzone drag-target-zone" id="modal-act-dropzone" style="padding: 1rem; margin-bottom: 0.5rem;">
-              <img id="modal-act-img-preview" src="${data?.image || 'assets/images/activity_1.jpg'}" style="max-height: 120px; object-fit: contain; margin: 0 auto 0.5rem; display: block; border-radius: 4px;">
-              <span style="font-size: 0.75rem; color: var(--text-muted);">คลิกหรือลากวางไฟล์ภาพที่นี่เพื่อเปลี่ยนรูป</span>
-              <input type="file" id="modal-act-file-input" accept="image/*" style="display: none;">
+            <label class="form-label">ภาพปกผลงาน (Cover Image)</label>
+            <div style="display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.5rem;">
+              <img id="modal-act-img-preview" src="${data?.image || 'assets/images/activity_1.jpg'}" style="width: 70px; height: 70px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-subtle); flex-shrink: 0;">
+              <div style="flex: 1;">
+                <input type="text" id="act-input-image" class="form-input" value="${data?.image || ''}" placeholder="URL ภาพปก (จะเปลี่ยนอัตโนมัติเมื่อกด '⭐ ปก')">
+                <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem;">อัปโหลดรูปภาพด้านล่างแล้วกด '⭐ ปก' เพื่อตั้งเป็นภาพหลัก</div>
+              </div>
             </div>
-            <input type="text" id="act-input-image" class="form-input" value="${data?.image || ''}" placeholder="หรือระบุ URL รูปภาพ">
           </div>
           <div class="form-group">
             <label class="form-label">รายละเอียดผลงาน</label>
@@ -878,48 +1225,40 @@ document.addEventListener("DOMContentLoaded", async () => {
             <label class="form-label">แท็ก (คั่นด้วยจุลภาค เช่น ไฟฟ้า, Arduino, นวัตกรรม)</label>
             <input type="text" id="act-input-tags" class="form-input" value="${(data?.tags || []).join(', ')}">
           </div>
-          <div class="form-group">
-            <label class="form-label">ลิงก์เอกสารแนบ / รายงาน PDF</label>
-            <input type="text" id="act-input-doc" class="form-input" value="${data?.document || ''}" placeholder="เช่น assets/docs/smart_copper_sorter.pdf หรือ URL คลาวด์">
+
+          <!-- Activity Multi-Files Section -->
+          <div class="form-group" style="margin-top: 1rem; border-top: 1px dashed var(--border-subtle); padding-top: 0.75rem;">
+            <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
+              <span><i class="fa-solid fa-paperclip" style="color: var(--primary);"></i> ไฟล์แนบหลายไฟล์ & หลายชนิด (Multi-Files)</span>
+              <span style="font-size: 0.72rem; color: var(--text-muted);">PDF, Word, Excel, Video, YouTube, CAD, ZIP</span>
+            </label>
+            <div class="dropzone drag-target-zone" id="modal-act-dropzone" style="padding: 1rem; text-align: center; cursor: pointer; border: 2px dashed var(--border-subtle); border-radius: var(--radius-sm);">
+              <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.5rem; color: var(--primary); margin-bottom: 0.25rem;"></i>
+              <div style="font-size: 0.82rem; font-weight: 600;">คลิกหรือลากไฟล์หลายชนิดมาวางที่นี่เพื่ออัปโหลดพร้อมกัน</div>
+              <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.2rem;">อัปโหลดไฟล์รูปภาพ เอกสาร หรือวิดีโอได้ไม่จำกัด</div>
+              <input type="file" id="modal-act-file-input" multiple style="display: none;">
+            </div>
+            <div style="display: flex; gap: 0.4rem; margin-top: 0.4rem;">
+              <input type="text" id="modal-act-url-input" class="form-input" placeholder="หรือใส่ URL ลิงก์ไฟล์ / YouTube / เอกสารคลาวด์..." style="font-size: 0.8rem;">
+              <button type="button" id="modal-act-btn-add-url" class="btn-light" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; white-space: nowrap;">
+                <i class="fa-solid fa-plus"></i> เพิ่มจาก URL
+              </button>
+            </div>
+            <div id="modal-act-files-list" style="margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.35rem; max-height: 200px; overflow-y: auto;"></div>
           </div>
         `;
 
-        // Wire modal act dropzone
-        const actDropzone = document.getElementById("modal-act-dropzone");
-        const actFileInput = document.getElementById("modal-act-file-input");
-        const actImgPreview = document.getElementById("modal-act-img-preview");
-        const actInputImage = document.getElementById("act-input-image");
-
-        if (actDropzone && actFileInput) {
-          actDropzone.addEventListener("click", () => actFileInput.click());
-          actFileInput.addEventListener("change", async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const res = await portfolioSupabase.uploadFile(file);
-            if (res.success && res.url) {
-              if (actImgPreview) actImgPreview.src = res.url;
-              if (actInputImage) actInputImage.value = res.url;
-            }
-          });
-
-          actDropzone.addEventListener("dragover", (e) => {
-            e.preventDefault();
-            actDropzone.classList.add("drag-active");
-          });
-          actDropzone.addEventListener("dragleave", () => actDropzone.classList.remove("drag-active"));
-          actDropzone.addEventListener("drop", async (e) => {
-            e.preventDefault();
-            actDropzone.classList.remove("drag-active");
-            if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-              const file = e.dataTransfer.files[0];
-              const res = await portfolioSupabase.uploadFile(file);
-              if (res.success && res.url) {
-                if (actImgPreview) actImgPreview.src = res.url;
-                if (actInputImage) actInputImage.value = res.url;
-              }
-            }
-          });
-        }
+        renderModalFilesList("modal-act-files-list", currentModalFiles, "act-input-image");
+        wireMultiFileUpload({
+          dropzone: document.getElementById("modal-act-dropzone"),
+          fileInput: document.getElementById("modal-act-file-input"),
+          urlInput: document.getElementById("modal-act-url-input"),
+          btnAddUrl: document.getElementById("modal-act-btn-add-url"),
+          filesArray: currentModalFiles,
+          containerId: "modal-act-files-list",
+          coverInputId: "act-input-image",
+          imgPreview: document.getElementById("modal-act-img-preview")
+        });
       }
 
       modal.classList.add("active");
@@ -987,6 +1326,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           const name = document.getElementById("course-input-name").value.trim();
           const category = document.getElementById("course-input-category").value.trim();
           const description = document.getElementById("course-input-desc").value.trim();
+          const files = currentModalFiles;
 
           if (mode === "add") {
             currentData.courses.push({
@@ -995,12 +1335,13 @@ document.addEventListener("DOMContentLoaded", async () => {
               name,
               category,
               description,
+              files,
               artifacts: []
             });
           } else {
             const idx = currentData.courses.findIndex(x => x.id === id);
             if (idx !== -1) {
-              currentData.courses[idx] = { ...currentData.courses[idx], code, name, category, description };
+              currentData.courses[idx] = { ...currentData.courses[idx], code, name, category, description, files };
             }
           }
           renderCourses(currentData.courses);
@@ -1008,11 +1349,14 @@ document.addEventListener("DOMContentLoaded", async () => {
           const title = document.getElementById("act-input-title").value.trim();
           const category = document.getElementById("act-input-category").value;
           const date = document.getElementById("act-input-date").value.trim();
-          const image = document.getElementById("act-input-image").value.trim() || "assets/images/activity_1.jpg";
+          const files = currentModalFiles;
+          const firstImage = (files.find(f => parseFileInfo(f)?.category === 'image')?.url);
+          const image = document.getElementById("act-input-image").value.trim() || firstImage || "assets/images/activity_1.jpg";
           const description = document.getElementById("act-input-desc").value.trim();
           const tagsStr = document.getElementById("act-input-tags").value.trim();
           const tags = tagsStr ? tagsStr.split(",").map(t => t.trim()).filter(Boolean) : ["ผลงาน"];
-          const documentUrl = document.getElementById("act-input-doc").value.trim();
+          const docFile = files.find(f => parseFileInfo(f)?.category === 'pdf' || parseFileInfo(f)?.category === 'document');
+          const documentUrl = docFile ? docFile.url : null;
 
           if (mode === "add") {
             currentData.activities.push({
@@ -1023,12 +1367,23 @@ document.addEventListener("DOMContentLoaded", async () => {
               image,
               description,
               tags,
-              document: documentUrl || null
+              document: documentUrl,
+              files
             });
           } else {
             const idx = currentData.activities.findIndex(x => x.id === id);
             if (idx !== -1) {
-              currentData.activities[idx] = { ...currentData.activities[idx], title, category, date, image, description, tags, document: documentUrl || null };
+              currentData.activities[idx] = {
+                ...currentData.activities[idx],
+                title,
+                category,
+                date,
+                image,
+                description,
+                tags,
+                document: documentUrl || currentData.activities[idx].document,
+                files
+              };
             }
           }
           renderActivities(currentData.activities);
@@ -1277,9 +1632,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     }
 
-    // 4. Drag & Drop Directly onto Activity Cards to Replace Image
+    // 4. Drag & Drop Directly onto Activity & Course Cards (Multi-files & Multi-types)
     document.addEventListener("dragover", (e) => {
-      const card = e.target.closest(".activity-card");
+      const card = e.target.closest(".activity-card, .course-card");
       if (card) {
         e.preventDefault();
         card.classList.add("drag-active");
@@ -1287,33 +1642,86 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     document.addEventListener("dragleave", (e) => {
-      const card = e.target.closest(".activity-card");
+      const card = e.target.closest(".activity-card, .course-card");
       if (card) card.classList.remove("drag-active");
     });
 
     document.addEventListener("drop", async (e) => {
-      const card = e.target.closest(".activity-card");
-      if (card && e.dataTransfer.files && e.dataTransfer.files[0]) {
-        e.preventDefault();
-        card.classList.remove("drag-active");
-        const actId = card.dataset.activityId;
-        const file = e.dataTransfer.files[0];
-        if (!file.type.startsWith("image/")) {
-          alert("กรุณาวางไฟล์รูปภาพเท่านั้นค่ะ");
-          return;
-        }
+      const actCard = e.target.closest(".activity-card");
+      const courseCard = e.target.closest(".course-card");
 
-        showToast("🔄 กำลังอัปโหลดรูปภาพผลงาน...", "info");
-        const res = await portfolioSupabase.uploadFile(file);
-        if (res.success && res.url) {
+      if (actCard && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        e.preventDefault();
+        actCard.classList.remove("drag-active");
+        const actId = actCard.dataset.activityId;
+        const files = Array.from(e.dataTransfer.files);
+
+        showToast(`🔄 กำลังอัปโหลด ${files.length} ไฟล์เข้าสู่กิจกรรม...`, "info");
+        try {
+          const uploaded = [];
+          for (const f of files) {
+            const res = await portfolioSupabase.uploadFile(f);
+            if (res.success && res.url) {
+              uploaded.push({
+                name: res.name || f.name,
+                url: res.url,
+                size: res.size || formatFileSize(f.size),
+                type: res.type || f.type
+              });
+            }
+          }
           const act = currentData.activities.find(x => x.id === actId);
-          if (act) {
-            act.image = res.url;
+          if (act && uploaded.length > 0) {
+            if (!Array.isArray(act.files)) act.files = [];
+            act.files.push(...uploaded);
+            const imgFile = uploaded.find(u => parseFileInfo(u)?.category === "image");
+            if (imgFile && (!act.image || act.image.includes("activity_1.jpg"))) {
+              act.image = imgFile.url;
+            }
             portfolioStorage.saveData(currentData, true);
             renderActivities(currentData.activities);
             portfolioAudio.playChime();
-            showToast(`เปลี่ยนภาพปกของ "${act.title}" สำเร็จแล้ว!`, "success");
+            showToast(`✅ เพิ่ม ${uploaded.length} ไฟล์ในกิจกรรม "${act.title}" สำเร็จแล้ว!`, "success");
           }
+        } catch (err) {
+          console.error("Drop error:", err);
+          showToast("❌ เกิดข้อผิดพลาดในการอัปโหลดไฟล์", "warning");
+        }
+        return;
+      }
+
+      if (courseCard && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        e.preventDefault();
+        courseCard.classList.remove("drag-active");
+        const courseId = courseCard.dataset.courseId;
+        const files = Array.from(e.dataTransfer.files);
+
+        showToast(`🔄 กำลังอัปโหลด ${files.length} ไฟล์เข้าสู่รายวิชา...`, "info");
+        try {
+          const uploaded = [];
+          for (const f of files) {
+            const res = await portfolioSupabase.uploadFile(f);
+            if (res.success && res.url) {
+              uploaded.push({
+                name: res.name || f.name,
+                url: res.url,
+                size: res.size || formatFileSize(f.size),
+                type: res.type || f.type
+              });
+            }
+          }
+          const course = currentData.courses.find(x => x.id === courseId);
+          if (course && uploaded.length > 0) {
+            if (!Array.isArray(course.files)) course.files = [];
+            course.files.push(...uploaded);
+            portfolioStorage.saveData(currentData, true);
+            renderCourses(currentData.courses);
+            portfolioAudio.playChime();
+            showToast(`✅ เพิ่ม ${uploaded.length} ไฟล์ในรายวิชา "${course.name}" สำเร็จแล้ว!`, "success");
+          }
+        } catch (err) {
+          console.error("Drop error:", err);
+          showToast("❌ เกิดข้อผิดพลาดในการอัปโหลดไฟล์", "warning");
         }
       }
     });
@@ -1986,30 +2394,213 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     }
 
-    // Lightbox view for activities
-    document.addEventListener("click", (e) => {
-      const btn = e.target.closest(".btn-view-activity");
-      if (btn) {
-        const act = currentData.activities.find(x => x.id === btn.dataset.id);
-        if (act) {
-          const modal = document.getElementById("modal-lightbox");
-          const container = document.getElementById("lightbox-container");
-          const title = document.getElementById("lightbox-title");
+    // Lightbox view for activities & courses (Multi-media switcher & Attached files)
+    function openLightboxViewer({ title, category, dateOrCode, description, tags, mediaList, filesList }) {
+      const modal = document.getElementById("modal-lightbox");
+      const container = document.getElementById("lightbox-container");
+      const titleEl = document.getElementById("lightbox-title");
 
-          if (title) title.innerHTML = `<i class="fa-solid fa-trophy" style="color:var(--primary);"></i> ${act.title}`;
-          if (container) {
-            container.innerHTML = `
-              <div style="display: flex; flex-direction: column; align-items: center; max-width: 700px; width: 100%;">
-                <img src="${act.image || 'assets/images/activity_1.jpg'}" style="max-height: 50vh; border-radius: 8px; margin-bottom: 1rem; width: 100%; object-fit: contain;">
-                <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; text-align: left; width: 100%;">${act.description}</p>
-                <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem; width: 100%;">
-                  ${(act.tags || []).map(t => `<span class="tag-pill">#${t}</span>`).join("")}
-                </div>
-              </div>
-            `;
+      if (titleEl) titleEl.innerHTML = title;
+
+      if (!container) return;
+
+      function renderMediaViewer(mediaItem) {
+        if (!mediaItem) {
+          return `<div style="padding: 2rem; color: var(--text-muted); font-size: 0.85rem;"><i class="fa-solid fa-file-circle-check"></i> ไม่พบไฟล์แสดงตัวอย่างสื่อ</div>`;
+        }
+        const p = parseFileInfo(mediaItem);
+        if (p.category === "youtube") {
+          const ytMatch = p.url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+          const ytId = ytMatch ? ytMatch[1] : null;
+          if (ytId) {
+            return `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1" style="width: 100%; height: 380px; border: none; border-radius: 8px;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
           }
-          if (modal) modal.classList.add("active");
-          portfolioAudio.playPop();
+        }
+        if (p.category === "video") {
+          return `<video src="${p.url}" controls autoplay style="max-height: 48vh; width: 100%; border-radius: 8px; background: #000;"></video>`;
+        }
+        if (p.category === "image") {
+          return `<img src="${p.url}" alt="${p.name}" style="max-height: 48vh; width: 100%; object-fit: contain; border-radius: 8px; background: rgba(0,0,0,0.03);">`;
+        }
+        return `
+          <div style="padding: 2.5rem; text-align: center;">
+            <i class="${p.faIcon}" style="font-size: 3rem; color: var(--primary); margin-bottom: 0.75rem; display: block;"></i>
+            <div style="font-weight: 600; font-size: 1rem; color: var(--text-primary);">${p.name}</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">${p.label} ${p.size ? `(${p.size})` : ''}</div>
+            <a href="${p.url}" target="_blank" class="btn-primary" style="display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1rem; padding: 0.4rem 1rem; text-decoration: none; font-size: 0.85rem;">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> เปิดดูเอกสารในแท็บใหม่
+            </a>
+          </div>
+        `;
+      }
+
+      container.innerHTML = `
+        <div style="display: flex; flex-direction: column; width: 100%; max-width: 820px;">
+          <!-- Active Media Viewer Frame -->
+          <div id="lightbox-active-viewer" style="width: 100%; min-height: 200px; display: flex; align-items: center; justify-content: center; background: #000; border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 0.75rem;">
+            ${renderMediaViewer(mediaList[0])}
+          </div>
+
+          <!-- Multi-media Thumbnail Switcher Strip -->
+          ${mediaList.length > 1 ? `
+            <div id="lightbox-gallery-strip" style="display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; margin-bottom: 0.75rem;">
+              ${mediaList.map((m, idx) => {
+                const mp = parseFileInfo(m);
+                return `
+                  <div class="lightbox-thumb-btn ${idx === 0 ? 'active' : ''}" data-idx="${idx}" style="cursor: pointer; width: 68px; height: 50px; border-radius: 4px; overflow: hidden; border: 2px solid ${idx === 0 ? 'var(--primary)' : 'var(--border-subtle)'}; flex-shrink: 0; background: var(--bg-surface); display: flex; align-items: center; justify-content: center;">
+                    ${mp.category === 'image' ? `<img src="${mp.url}" style="width: 100%; height: 100%; object-fit: cover;">` : `<i class="${mp.faIcon}" style="font-size: 1.2rem; color: var(--primary);"></i>`}
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          ` : ''}
+
+          <!-- Header Tags & Date -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <span style="font-size: 0.78rem; background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 3px 10px; border-radius: 12px; color: var(--primary); font-weight: 600;">
+              ${category}
+            </span>
+            ${dateOrCode ? `<span style="font-size: 0.78rem; color: var(--text-muted);"><i class="fa-regular fa-clock"></i> ${dateOrCode}</span>` : ''}
+          </div>
+
+          <!-- Description -->
+          <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.75rem;">${description || ''}</p>
+
+          <!-- Tags -->
+          ${tags && tags.length ? `
+            <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1rem;">
+              ${tags.map(t => `<span class="tag-pill">#${t}</span>`).join("")}
+            </div>
+          ` : ''}
+
+          <!-- Attached Files Section -->
+          ${filesList && filesList.length ? `
+            <div style="border-top: 1px solid var(--border-subtle); padding-top: 1rem; margin-top: 0.5rem;">
+              <div style="font-size: 0.88rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem;">
+                <i class="fa-solid fa-paperclip" style="color: var(--primary);"></i> ไฟล์แนบและเอกสารทั้งหมด (${filesList.length} รายการ):
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 0.45rem; max-height: 220px; overflow-y: auto;">
+                ${filesList.map(f => {
+                  const p = parseFileInfo(f);
+                  return `
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.55rem 0.75rem; background: var(--bg-page); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); gap: 0.5rem;">
+                      <div style="display: flex; align-items: center; gap: 0.6rem; overflow: hidden; flex: 1;">
+                        <i class="${p.faIcon}" style="font-size: 1.25rem; color: var(--primary); flex-shrink: 0;"></i>
+                        <div style="overflow: hidden; flex: 1;">
+                          <div style="font-size: 0.84rem; font-weight: 600; color: var(--text-primary); text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${p.name}</div>
+                          <div style="font-size: 0.7rem; color: var(--text-muted); display: flex; gap: 0.5rem; align-items: center; margin-top: 2px;">
+                            <span style="background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 1px 5px; border-radius: 3px; font-weight: 600; font-size: 0.68rem;">${p.label}</span>
+                            ${p.size ? `<span>${p.size}</span>` : ''}
+                          </div>
+                        </div>
+                      </div>
+                      <div style="display: flex; gap: 0.35rem; flex-shrink: 0;">
+                        <a href="${p.url}" target="_blank" class="artifact-action" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; text-decoration: none; border-radius: 4px; display: inline-flex; align-items: center; gap: 0.3rem;">
+                          <i class="fa-solid fa-eye"></i> เปิดดู
+                        </a>
+                        <a href="${p.url}" download="${p.name}" target="_blank" class="artifact-action" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; text-decoration: none; border-radius: 4px; display: inline-flex; align-items: center; gap: 0.3rem;">
+                          <i class="fa-solid fa-download"></i> ดาวน์โหลด
+                        </a>
+                      </div>
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+            </div>
+          ` : ''}
+        </div>
+      `;
+
+      // Wire gallery strip clicks
+      const galleryStrip = document.getElementById("lightbox-gallery-strip");
+      const activeViewer = document.getElementById("lightbox-active-viewer");
+      if (galleryStrip && activeViewer) {
+        galleryStrip.querySelectorAll(".lightbox-thumb-btn").forEach(thumb => {
+          thumb.addEventListener("click", () => {
+            const idx = parseInt(thumb.dataset.idx, 10);
+            galleryStrip.querySelectorAll(".lightbox-thumb-btn").forEach(t => {
+              t.style.borderColor = "var(--border-subtle)";
+              t.classList.remove("active");
+            });
+            thumb.style.borderColor = "var(--primary)";
+            thumb.classList.add("active");
+            activeViewer.innerHTML = renderMediaViewer(mediaList[idx]);
+          });
+        });
+      }
+
+      if (modal) modal.classList.add("active");
+      portfolioAudio.playPop();
+    }
+
+    document.addEventListener("click", (e) => {
+      // 1. View Activity in Lightbox
+      const btnAct = e.target.closest(".btn-view-activity");
+      if (btnAct) {
+        const act = currentData.activities.find(x => x.id === btnAct.dataset.id);
+        if (act) {
+          const allFiles = Array.isArray(act.files) ? [...act.files] : [];
+          if (act.image && !allFiles.some(f => (typeof f === 'string' ? f : f.url) === act.image)) {
+            allFiles.unshift({ name: "ภาพหน้าปก", url: act.image, type: "image/jpeg" });
+          }
+          if (act.document && !allFiles.some(f => (typeof f === 'string' ? f : f.url) === act.document)) {
+            allFiles.push({ name: "เอกสารแนบ", url: act.document, type: "application/pdf" });
+          }
+
+          const mediaList = allFiles.filter(f => {
+            const p = parseFileInfo(f);
+            return p && (p.category === "image" || p.category === "video" || p.category === "youtube");
+          });
+          if (mediaList.length === 0 && act.image) {
+            mediaList.push({ name: act.title, url: act.image, type: "image/jpeg" });
+          }
+
+          openLightboxViewer({
+            title: `<i class="fa-solid fa-trophy" style="color:var(--primary);"></i> ${act.title}`,
+            category: act.category,
+            dateOrCode: act.date,
+            description: act.description,
+            tags: act.tags || [],
+            mediaList,
+            filesList: allFiles
+          });
+        }
+        return;
+      }
+
+      // 2. View Course in Lightbox
+      const btnCourse = e.target.closest(".btn-view-course");
+      if (btnCourse) {
+        const course = currentData.courses.find(x => x.id === btnCourse.dataset.id);
+        if (course) {
+          const allFiles = Array.isArray(course.files) ? [...course.files] : [];
+          if (Array.isArray(course.artifacts)) {
+            course.artifacts.forEach(art => {
+              if (Array.isArray(art.files)) {
+                art.files.forEach(af => allFiles.push(af));
+              } else if (art.file) {
+                allFiles.push({ name: art.title, url: art.file, type: art.type || "application/pdf" });
+              }
+            });
+          }
+
+          const mediaList = allFiles.filter(f => {
+            const p = parseFileInfo(f);
+            return p && (p.category === "image" || p.category === "video" || p.category === "youtube");
+          });
+          if (mediaList.length === 0 && allFiles.length > 0) {
+            mediaList.push(allFiles[0]);
+          }
+
+          openLightboxViewer({
+            title: `<i class="fa-solid fa-book-open" style="color:var(--primary);"></i> ${course.code}: ${course.name}`,
+            category: course.category,
+            dateOrCode: course.code,
+            description: course.description,
+            tags: [course.category, `${course.artifacts ? course.artifacts.length : 0} ชิ้นงาน`],
+            mediaList,
+            filesList: allFiles
+          });
         }
       }
     });

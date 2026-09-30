@@ -40,6 +40,27 @@ class StorageManager {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
+        // Ensure courses and activities have files from DEFAULT_PORTFOLIO_DATA if not set
+        if (parsed.courses && Array.isArray(parsed.courses)) {
+          parsed.courses.forEach(c => {
+            const defC = (DEFAULT_PORTFOLIO_DATA.courses || []).find(x => x.id === c.id);
+            if ((!c.files || c.files.length === 0) && defC && defC.files) c.files = defC.files;
+            if (c.artifacts && defC && defC.artifacts) {
+              c.artifacts.forEach(a => {
+                const defA = defC.artifacts.find(x => x.title === a.title);
+                if ((!a.files || a.files.length === 0) && defA && defA.files) a.files = defA.files;
+              });
+            }
+          });
+        }
+        if (parsed.activities && Array.isArray(parsed.activities)) {
+          parsed.activities.forEach(a => {
+            const defA = (DEFAULT_PORTFOLIO_DATA.activities || []).find(x => x.id === a.id);
+            if ((!a.files || a.files.length === 0) && defA && defA.files) {
+              a.files = defA.files;
+            }
+          });
+        }
         // Merge with defaults to ensure all fields exist
         return {
           ...DEFAULT_PORTFOLIO_DATA,
