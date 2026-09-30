@@ -2,6 +2,15 @@
 **สาขาครุศาสตร์อุตสาหกรรมไฟฟ้า คณะครุศาสตร์อุตสาหกรรม**  
 **มหาวิทยาลัยเทคโนโลยีราชมงคลอีสาน วิทยาเขตขอนแก่น**
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Farochaboonlue2047-cmd%2Fportfolio)
+
+---
+
+## 🌐 ลิงก์ออนไลน์และการเผยแพร่ (Live Deployments)
+* **GitHub Repository:** [https://github.com/arochaboonlue2047-cmd/portfolio](https://github.com/arochaboonlue2047-cmd/portfolio)
+* **GitHub Pages (Live Website):** [https://arochaboonlue2047-cmd.github.io/portfolio/](https://arochaboonlue2047-cmd.github.io/portfolio/)
+* **Vercel Deploy (1-Click):** [กดที่นี่เพื่อ Deploy ขึ้น Vercel ทันที](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Farochaboonlue2047-cmd%2Fportfolio)
+
 ---
 
 ## 🌸 ข้อมูลภาพรวมเว็บไซต์
@@ -29,24 +38,40 @@
 
 ---
 
-## 🎨 ฟีเจอร์การตกแต่งและจัดการเว็บไซต์ (CMS Features)
-เมื่อเข้าสู่ระบบสำเร็จ จะปรากฏแถบเมนูด้านบน (Admin Bar) โดยมีเครื่องมือดังนี้:
-1. **โหมดแก้ไขด่วน (Quick Edit Mode):**
-   * คลิกที่ข้อความส่วนใดก็ได้บนหน้าเว็บเพื่อพิมพ์แก้ไขได้ทันทีโดยไม่ต้องเปิดไฟล์โค้ด
-   * มีแถบเครื่องมือลอยด้านล่างพร้อมปุ่ม **"บันทึกทั้งหมด"** และ **"ยกเลิก"**
-2. **แผงควบคุม & ตกแต่ง (Drawer Control Center):**
-   * **ตกแต่งหน้าตา:** สลับพาเลตต์สี (Sakura Blossom, Peach Sunshine, Mint Fresh, Lavender Dream, Ocean Azure), สลับฟอนต์ (Prompt, Kanit, Sarabun, Chakra Petch), เปิด/ปิด ละอองดาว (Sparkles), เปิด/ปิด เสียงคลิก Pop
-   * **ข้อมูลส่วนตัว:** อัปเดตชื่อ, เบอร์โทร, อีเมล, คติประจำใจ, แนะนำตัว
-   * **การศึกษา / รายวิชา / ผลงาน:** เพิ่ม, แก้ไข และลบรายการต่างๆ ได้อย่างอิสระ
-   * **อัปโหลดไฟล์ทุกประเภท:** อัปโหลดภาพ, วิดีโอ, PDF และฟอนต์ (.ttf, .woff, .woff2) เข้าสู่ระบบ โดยฟอนต์ที่อัปโหลดจะถูกติดตั้งให้เลือกใช้งานได้ทันที
-   * **สำรองและกู้คืน (Backup & Restore):** ส่งออกข้อมูลทั้งหมดเป็นไฟล์ JSON ก้อนเดียว และนำเข้ากู้คืนได้ทุกเมื่อ
-3. **ระบบสลับโหมด มืด / สว่าง (Dark / Light Mode):**
-   * สลับได้ทันทีจากไอคอนรูปพระจันทร์ 🌙 / พระอาทิตย์ ☀️ บริเวณแถบเมนูด้านบน
-4. **การพิมพ์เป็น PDF / กระดาษ (Print Portfolio):**
-   * คลิกปุ่ม "พิมพ์แฟ้มสะสมผลงาน" ที่หน้าหลัก หรือกด `Ctrl + P` เพื่อพิมพ์เป็นรายงาน Portfolio ได้ทันที
+## ☁️ การเชื่อมต่อฐานข้อมูลคลาวด์ Supabase
+เว็บไซต์รองรับการเชื่อมต่อกับ Supabase เพื่อให้ข้อมูลที่แก้ไขจากเครื่องคอมพิวเตอร์ของคุณบุ๋มบิ๋ม อัปเดตไปยังหน้าเว็บที่เปิดบน Vercel หรือมือถือได้แบบ Realtime:
+
+1. สมัครใช้งานหรือเปิดโปรเจกต์ที่ [Supabase.com](https://supabase.com)
+2. เข้าไปที่ **SQL Editor** แล้ววางคำสั่ง SQL ด้านล่างนี้เพื่อสร้างตาราง:
+
+```sql
+-- สร้างตารางสำหรับเก็บข้อมูล Portfolio
+create table if not exists public.portfolio_data (
+  id text primary key default 'main',
+  data jsonb not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- เปิดใช้งานความปลอดภัย Row Level Security (RLS)
+alter table public.portfolio_data enable row level security;
+
+-- เปิดให้ทุกคนสามารถอ่านข้อมูลได้
+create policy "Allow public read" on public.portfolio_data for select using (true);
+
+-- เปิดให้อัปเดตและบันทึกข้อมูลได้
+create policy "Allow anon insert" on public.portfolio_data for insert with check (true);
+create policy "Allow anon update" on public.portfolio_data for update using (true);
+```
+
+3. คัดลอก **Project URL** และ **Anon Key (Public)** จากหน้า Settings > API ของ Supabase
+4. ล็อกอินเข้าสู่ระบบแอดมินบนหน้าเว็บ (Ctrl+L+O) > เปิด **แผงควบคุม & ตกแต่ง** > เลือกแท็บ **"คลาวด์ Supabase"** > วาง URL และ Key แล้วกดปุ่ม **"บันทึกและทดสอบการเชื่อมต่อ"**
+5. กดปุ่ม **"อัปโหลดขึ้นคลาวด์"** เป็นอันเสร็จสิ้น!
 
 ---
 
-## 🚀 ที่อยู่ไฟล์โปรเจกต์
-- ที่อยู่ไฟล์หลัก: `C:\Users\aroch\.gemini\antigravity\scratch\portfolio\index.html`
-- ทางลัดเปิดใช้งาน: `C:\Users\aroch\Portfolio-Bumbim.lnk`
+## 🚀 การนำขึ้น Vercel (1-Click Deploy)
+1. กดที่ปุ่ม **Deploy with Vercel** หรือเข้าลิงก์:  
+   [https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Farochaboonlue2047-cmd%2Fportfolio](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Farochaboonlue2047-cmd%2Fportfolio)
+2. เข้าสู่ระบบ Vercel ด้วยบัญชี GitHub เดียวกัน (`arochaboonlue2047-cmd`)
+3. กดปุ่ม **Deploy** (ระบบเตรียมไฟล์ `vercel.json` ไว้ให้แล้ว ไม่ต้องตั้งค่าใดๆ เพิ่มเติม)
+4. รอประมาณ 30 วินาที จะได้รับโดเมน `.vercel.app` เช่น `bumbim-portfolio.vercel.app` พร้อมใช้งานทั่วโลกทันที!
