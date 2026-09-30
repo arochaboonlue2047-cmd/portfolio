@@ -1,4 +1,4 @@
-# แฟ้มสะสมผลงาน (Portfolio) - นางสาวอโรชา บุญเหลือ (บุ๋มบิ๋ม)
+# 🌸 แฟ้มสะสมผลงาน (Portfolio) - นางสาวอโรชา บุญเหลือ (บุ๋มบิ๋ม)
 **สาขาครุศาสตร์อุตสาหกรรมไฟฟ้า คณะครุศาสตร์อุตสาหกรรม**  
 **มหาวิทยาลัยเทคโนโลยีราชมงคลอีสาน วิทยาเขตขอนแก่น**
 
@@ -13,22 +13,26 @@
 
 ---
 
-## 🌸 ข้อมูลภาพรวมเว็บไซต์
-เว็บไซต์ Portfolio นี้ได้รับการออกแบบและพัฒนาขึ้นในรูปแบบ **Modern Cute & Professional** (สดใสน่ารัก สบายตา แต่อัดแน่นด้วยความเรียบร้อย ทางการ และน่าเชื่อถือ) โดยอิงตามแนวคิดการออกแบบชั้นยอด (Impeccable Design Principles) เพื่อการนำเสนอแฟ้มสะสมผลงานแก่อาจารย์ คณะกรรมการ และผู้ประเมิน
+## ✨ จุดเด่นและฟังก์ชันการทำงานใหม่ล่าสุด
+1. ⚡ **เชื่อมต่อ Supabase & Realtime สดทุกวินาที:** เมื่อแก้ไขหรืออัปเดตข้อมูล หน้าเว็บทุกหน้าที่เปิดอยู่ (ทั้งบนมือถือ คอมพิวเตอร์ หรือ Vercel) จะอัปเดตทันทีแบบสดๆ ผ่าน Supabase Realtime Channel
+2. 🛡️ **ระบบป้องกันการดึงข้อมูลเก่า (Anti-Stale Cache / SWR):** ใช้เทคโนโลยี Stale-While-Revalidate เปรียบเทียบ ISO Timestamp ล่าสุดบน Cloud เสมอ มั่นใจได้ 100% ว่าจะไม่แสดงข้อมูลเก่า และมีปุ่ม `⚡ ซิงก์สดคลาวด์ (Force Pull / Bypass Cache)` สำหรับดึงข้อมูลสดทันที
+3. 📁 **ระบบอัปโหลดและลากวางไฟล์แบบง่าย (Universal Drag & Drop Everywhere):**
+   * **ลากวางบนรูปโปรไฟล์:** ลากรูปภาพมาวางที่รูปโปรไฟล์ในหน้าแรก (Hero) หรือหน้าข้อมูลส่วนตัว เพื่อเปลี่ยนรูปโปรไฟล์ได้ทันที
+   * **ลากวางบนการ์ดผลงาน:** ลากไฟล์รูปมาวางบนการ์ดกิจกรรมใดๆ เพื่อเปลี่ยนภาพปกของกิจกรรมนั้นได้ทันที
+   * **คลังไฟล์มัลติมีเดีย (Universal File Manager):** ลากไฟล์หลายๆ ไฟล์พร้อมกันเพื่ออัปโหลดขึ้น Supabase Storage (หรือสำรองลง IndexedDB ในเครื่อง) รองรับทั้งรูปภาพ, คลิปวิดีโอ, เอกสาร PDF, และฟอนต์
+   * **ลากวางในหน้าต่างแก้ไข:** ขณะแก้ไขกิจกรรมหรือผลงาน มีช่อง Drag & Drop สำหรับแนบรูปและไฟล์อย่างสะดวกสบาย
+4. ✏️ **แก้ไขได้ทุกจุด 100% (Universal Full CRUD):**
+   * **ข้อมูลส่วนตัว (Profile):** แก้ไขได้ครบทุกช่อง (ชื่อ, นามสกุล, ชื่อเล่น, รหัสนักศึกษา, สถาบัน, คณะ, สาขา, เบอร์โทร, อีเมล, วันเกิด, สัญชาติ, คติประจำใจ, Bio, LINE, Facebook)
+   * **สถิติ & เกรดเฉลี่ย (Stats & GPA):** เพิ่ม ลบ แก้ไข ตัวเลข เกรด ป้ายเกียรตินิยม และไอคอนได้ตามต้องการ
+   * **ทักษะความเชี่ยวชาญ (Skills):** เพิ่มหมวดหมู่ทักษะ และปรับระดับความชำนาญ (% Progress Bar) ได้อิสระ
+   * **ประวัติการศึกษา (Education):** เพิ่ม ลบ แก้ไข ทุกระดับชั้นการศึกษา พร้อมคำอธิบายและ GPA
+   * **รายวิชา (Courses):** เพิ่ม ลบ แก้ไข รายวิชา และชิ้นงานในรายวิชา
+   * **กิจกรรมและผลงาน (Activities):** เพิ่ม ลบ แก้ไข รายละเอียด วันที่ รูปภาพ แท็ก และเอกสารแนบ PDF
+   * **โหมดแก้ไขด่วน (Quick Edit / ContentEditable):** คลิกแก้ไขข้อความบนหน้าเว็บได้โดยตรงทันที
 
 ---
 
-## 📂 โครงสร้างการนำทาง (Multi-Section Tabbed)
-1. **หน้าหลัก (Home):** แบนเนอร์ภาพถ่ายพร้อมเอฟเฟกต์หมุนประกาย, ป้ายสถานะนักศึกษา, สรุปเกรดเฉลี่ย ปวส. (3.85) / ปวช. (3.80), ไฮไลต์ชิ้นงาน และปุ่มพิมพ์เอกสาร Portfolio
-2. **ข้อมูลส่วนตัว (Personal Info):** ข้อมูลส่วนตัวครบถ้วน (รหัสนักศึกษา, วันเกิด, สัญชาติ, เบอร์โทร, อีเมล, มหาวิทยาลัย, คณะ, สาขา) พร้อมการแสดงทักษะความเชี่ยวชาญด้านวิศวกรรมไฟฟ้าและวิชาชีพครูด้วยแถบ Progress Bar
-3. **ประวัติการศึกษา (Education):** เส้นทางไทม์ไลน์การศึกษาตั้งแต่ระดับประถมศึกษาจนถึงระดับปริญญาตรี พร้อมป้ายเกียรตินิยมและเกรดเฉลี่ย
-4. **รายวิชา (Courses):** รวมรายวิชาหลัก เช่น ดิจิทัลลอจิก, AutoCAD เขียนแบบไฟฟ้า, การสอนครุศาสตร์ และรายงานชิ้นงานจำลอง Proteus / แบบงาน CAD
-5. **กิจกรรมและผลงาน (Activities):** รวมผลงานเด่น เช่น โครงงาน Smart Copper Sorter, กิจกรรมจิตอาสาครุศาสตร์, สื่อการสอน และระบบขยายดูภาพ (Lightbox Modal)
-6. **ส่วนท้ายของเว็บ (Footer):** ข้อมูลผู้จัดทำตามที่กำหนดครบถ้วน 100%
-
----
-
-## 🔐 ระบบภายในและการเข้าสู่ระบบแอดมิน (Hidden Admin System)
+## 🔐 ข้อมูลการเข้าสู่ระบบแอดมิน (Admin Access)
 * **วิธีเปิดหน้าต่างล็อกอิน:**
   * กดคีย์ลัด **`Ctrl + L + O`** บนแป้นพิมพ์พร้อมกันจากหน้าใดก็ได้
   * หรือคลิกที่ไอคอนกุญแจลับ 🔒 เล็กๆ ที่มุมล่างขวาของส่วนท้ายเว็บ (Footer)
@@ -38,34 +42,48 @@
 
 ---
 
-## ☁️ การเชื่อมต่อฐานข้อมูลคลาวด์ Supabase
-เว็บไซต์รองรับการเชื่อมต่อกับ Supabase เพื่อให้ข้อมูลที่แก้ไขจากเครื่องคอมพิวเตอร์ของคุณบุ๋มบิ๋ม อัปเดตไปยังหน้าเว็บที่เปิดบน Vercel หรือมือถือได้แบบ Realtime:
+## ☁️ การติดตั้งฐานข้อมูลคลาวด์ Supabase (Realtime Database & Storage)
 
-1. สมัครใช้งานหรือเปิดโปรเจกต์ที่ [Supabase.com](https://supabase.com)
-2. เข้าไปที่ **SQL Editor** แล้ววางคำสั่ง SQL ด้านล่างนี้เพื่อสร้างตาราง:
+### ขั้นตอนที่ 1: รันคำสั่ง SQL บน Supabase
+1. สมัครหรือเข้าสู่ระบบที่ [Supabase.com](https://supabase.com) แล้วสร้างโปรเจกต์ใหม่
+2. เข้าไปที่เมนู **SQL Editor** ในแถบซ้ายมือ
+3. คัดลอกโค้ดจากไฟล์ [`supabase/schema.sql`](supabase/schema.sql) ไปวางแล้วกด **Run**
 
 ```sql
--- สร้างตารางสำหรับเก็บข้อมูล Portfolio
+-- 1. สร้างตารางเก็บข้อมูล Portfolio
 create table if not exists public.portfolio_data (
   id text primary key default 'main',
   data jsonb not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- เปิดใช้งานความปลอดภัย Row Level Security (RLS)
+-- 2. เปิดใช้งาน Row Level Security (RLS)
 alter table public.portfolio_data enable row level security;
-
--- เปิดให้ทุกคนสามารถอ่านข้อมูลได้
 create policy "Allow public read" on public.portfolio_data for select using (true);
-
--- เปิดให้อัปเดตและบันทึกข้อมูลได้
 create policy "Allow anon insert" on public.portfolio_data for insert with check (true);
 create policy "Allow anon update" on public.portfolio_data for update using (true);
+create policy "Allow anon delete" on public.portfolio_data for delete using (true);
+
+-- 3. เปิดใช้งาน Supabase Realtime
+alter publication supabase_realtime add table public.portfolio_data;
+
+-- 4. ตั้งค่า Storage Bucket สำหรับจัดเก็บรูปและไฟล์
+insert into storage.buckets (id, name, public) values ('portfolio_files', 'portfolio_files', true)
+on conflict (id) do update set public = true;
+
+create policy "Public Access for Portfolio Files" on storage.objects for select using (bucket_id = 'portfolio_files');
+create policy "Anon Upload for Portfolio Files" on storage.objects for insert with check (bucket_id = 'portfolio_files');
+create policy "Anon Update for Portfolio Files" on storage.objects for update using (bucket_id = 'portfolio_files');
+create policy "Anon Delete for Portfolio Files" on storage.objects for delete using (bucket_id = 'portfolio_files');
 ```
 
-3. คัดลอก **Project URL** และ **Anon Key (Public)** จากหน้า Settings > API ของ Supabase
-4. ล็อกอินเข้าสู่ระบบแอดมินบนหน้าเว็บ (Ctrl+L+O) > เปิด **แผงควบคุม & ตกแต่ง** > เลือกแท็บ **"คลาวด์ Supabase"** > วาง URL และ Key แล้วกดปุ่ม **"บันทึกและทดสอบการเชื่อมต่อ"**
-5. กดปุ่ม **"อัปโหลดขึ้นคลาวด์"** เป็นอันเสร็จสิ้น!
+### ขั้นตอนที่ 2: เชื่อมต่อบนหน้าเว็บไซต์
+1. ในหน้า Supabase ไปที่ **Project Settings > Data API**
+2. คัดลอก **Project URL** และ **Anon Key (Public)**
+3. บนหน้าเว็บ Portfolio ให้ล็อกอินแอดมิน (`Ctrl + L + O`)
+4. เปิด **แผงควบคุม & ตกแต่ง** > เลือกแท็บ **"คลาวด์ Supabase"**
+5. วาง Project URL และ Anon Key แล้วกด **"บันทึกและเชื่อมต่อ Realtime ทันที"**
+6. กดปุ่ม **"อัปโหลดขึ้นคลาวด์"** ข้อมูลทั้งหมดของคุณบุ๋มบิ๋มจะขึ้นไปอยู่บน Cloud ทันที!
 
 ---
 
@@ -73,5 +91,5 @@ create policy "Allow anon update" on public.portfolio_data for update using (tru
 1. กดที่ปุ่ม **Deploy with Vercel** หรือเข้าลิงก์:  
    [https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Farochaboonlue2047-cmd%2Fportfolio](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Farochaboonlue2047-cmd%2Fportfolio)
 2. เข้าสู่ระบบ Vercel ด้วยบัญชี GitHub เดียวกัน (`arochaboonlue2047-cmd`)
-3. กดปุ่ม **Deploy** (ระบบเตรียมไฟล์ `vercel.json` ไว้ให้แล้ว ไม่ต้องตั้งค่าใดๆ เพิ่มเติม)
-4. รอประมาณ 30 วินาที จะได้รับโดเมน `.vercel.app` เช่น `bumbim-portfolio.vercel.app` พร้อมใช้งานทั่วโลกทันที!
+3. กดปุ่ม **Deploy** (ระบบมีไฟล์ `vercel.json` รองรับเรียบร้อยแล้ว)
+4. รอประมาณ 30 วินาที เว็บไซต์จะออนไลน์และซิงก์ข้อมูลกับ Supabase ทันที!

@@ -18,8 +18,18 @@
         <i class="fa-solid fa-wand-magic-sparkles"></i>
         <span>ระบบจัดการและตกแต่งเว็บ</span>
         <span class="admin-tag">แอดมิน: คุณบุ๋มบิ๋ม (Bimmm)</span>
+        <div id="admin-realtime-badge" class="realtime-status-pill" title="สถานะการเชื่อมต่อ Supabase Realtime">
+          <span class="realtime-dot offline" id="admin-realtime-dot"></span>
+          <span id="admin-realtime-text">โหมดในเครื่อง (ออฟไลน์)</span>
+        </div>
       </div>
       <div class="admin-bar-actions">
+        <button id="btn-quick-sync" class="admin-action-btn btn-light" title="ดึงข้อมูลสดจาก Supabase ทันที (ไม่ดึงข้อมูลเก่า)">
+          <i class="fa-solid fa-arrows-rotate"></i> ซิงก์สดคลาวด์
+        </button>
+        <button id="btn-quick-files" class="admin-action-btn btn-light" title="เปิดคลังไฟล์และระบบอัปโหลดลากวาง">
+          <i class="fa-solid fa-cloud-arrow-up"></i> คลังไฟล์ & ลากวาง
+        </button>
         <button id="btn-quick-edit" class="admin-action-btn btn-light" title="แก้ไขข้อความโดยตรงบนหน้าเว็บ">
           <i class="fa-solid fa-pen-to-square"></i> โหมดแก้ไขด่วน
         </button>
@@ -140,9 +150,14 @@
         </div>
 
         <div class="hero-visual">
-          <div class="portrait-wrapper">
+          <div class="portrait-wrapper" id="hero-portrait-wrapper" title="คลิกหรือลากไฟล์ภาพมาวางเพื่อเปลี่ยนรูปโปรไฟล์">
             <div class="portrait-ring"></div>
             <img src="assets/images/profile_1.jpg" alt="Arocha Boonlue" class="portrait-img" id="hero-avatar">
+            <div class="avatar-drop-overlay" id="hero-avatar-drop-overlay">
+              <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.4rem; margin-bottom: 0.25rem;"></i>
+              <span>คลิกหรือลากรูปมาวาง<br>เปลี่ยนโปรไฟล์</span>
+            </div>
+            <input type="file" id="input-hero-avatar" accept="image/*" style="display:none;">
             <div class="status-floating-pill">
               <span class="status-dot"></span>
               <span data-editable="profile.major" id="hero-major-pill">ครุศาสตร์อุตสาหกรรมไฟฟ้า</span>
@@ -170,7 +185,7 @@
           </div>
           <div class="info-field" style="margin-bottom: 0.6rem;">
             <span class="info-label">ข้อมูลติดต่อหลัก</span>
-            <span class="info-value">โทร: 083-248-2556 | arochaboonlue2047@gmail.com</span>
+            <span class="info-value" id="home-contact-info">โทร: 083-248-2556 | arochaboonlue2047@gmail.com</span>
           </div>
           <div class="info-field">
             <span class="info-label">คติประจำใจ</span>
@@ -184,19 +199,8 @@
             <h3 class="highlight-title"><i class="fa-solid fa-graduation-cap"></i> การศึกษาล่าสุด</h3>
             <span class="highlight-view-all" data-go-tab="education">ดูไทม์ไลน์ <i class="fa-solid fa-arrow-right"></i></span>
           </div>
-          <div style="margin-bottom: 0.75rem;">
-            <strong style="color: var(--primary);">ระดับปริญญาตรี (กำลังศึกษา)</strong>
-            <p style="font-size: 0.88rem; color: var(--text-secondary);">มหาวิทยาลัยเทคโนโลยีราชมงคลอีสาน วิทยาเขตขอนแก่น คณะครุศาสตร์อุตสาหกรรม</p>
-          </div>
-          <div style="border-top: 1px dashed var(--border-subtle); padding-top: 0.5rem;">
-            <div style="display:flex; justify-content: space-between; align-items:center;">
-              <span style="font-size: 0.85rem; font-weight: 600;">ปวส. วิทยาลัยเทคนิคหัวตะพาน</span>
-              <span class="timeline-gpa-badge" style="font-size: 0.75rem;">GPA 3.85 (เกียรตินิยม 1)</span>
-            </div>
-            <div style="display:flex; justify-content: space-between; align-items:center; margin-top: 0.4rem;">
-              <span style="font-size: 0.85rem; font-weight: 600;">ปวช. วิทยาลัยเทคนิคหัวตะพาน</span>
-              <span class="timeline-gpa-badge" style="font-size: 0.75rem;">GPA 3.80 (เกียรตินิยม)</span>
-            </div>
+          <div id="home-highlight-edu">
+            <!-- Rendered dynamically from data.js -->
           </div>
         </div>
 
@@ -206,13 +210,8 @@
             <h3 class="highlight-title"><i class="fa-solid fa-microchip"></i> ชิ้นงานและโครงงานเด่น</h3>
             <span class="highlight-view-all" data-go-tab="activities">ดูชิ้นงานทั้งหมด <i class="fa-solid fa-arrow-right"></i></span>
           </div>
-          <div style="margin-bottom: 0.5rem;">
-            <strong style="color: var(--primary);">โครงการ Smart Copper Sorter</strong>
-            <p style="font-size: 0.85rem; color: var(--text-secondary);">เครื่องคัดแยกทองแดงและโลหะอัจฉริยะสำหรับงานวิศวกรรมรีไซเคิล</p>
-          </div>
-          <div style="border-top: 1px dashed var(--border-subtle); padding-top: 0.5rem;">
-            <strong style="color: var(--text-primary); font-size: 0.9rem;">วงจรนับดิจิทัล 74LS90 + 74LS49 Decoder</strong>
-            <p style="font-size: 0.82rem; color: var(--text-secondary);">จำลองวงจรนับความถี่และขับจอ 7-Segment สองหลักด้วย Proteus</p>
+          <div id="home-highlight-activities">
+            <!-- Rendered dynamically from data.js -->
           </div>
         </div>
       </div>
@@ -231,7 +230,14 @@
       <div class="profile-container">
         <!-- Profile Left Sidebar -->
         <aside class="profile-sidebar">
-          <img src="assets/images/profile_1.jpg" alt="Arocha Boonlue" class="profile-avatar-large" id="profile-page-avatar">
+          <div style="position: relative; display: inline-block; width: 180px; height: 180px; margin: 0 auto 1.25rem;">
+            <img src="assets/images/profile_1.jpg" alt="Arocha Boonlue" class="profile-avatar-large" id="profile-page-avatar">
+            <div class="avatar-drop-overlay" id="profile-avatar-drop-overlay" style="border-radius: var(--radius-md);" title="คลิกหรือลากไฟล์ภาพมาวางเพื่อเปลี่ยนรูปโปรไฟล์">
+              <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.4rem; margin-bottom: 0.25rem;"></i>
+              <span>คลิกหรือลากรูปมาวาง<br>เปลี่ยนรูป</span>
+            </div>
+            <input type="file" id="input-profile-page-avatar" accept="image/*" style="display:none;">
+          </div>
           <h3 class="profile-name" data-editable="profile.name" id="profile-page-name">นางสาวอโรชา บุญเหลือ</h3>
           <div class="profile-nickname-badge">ชื่อเล่น: <strong data-editable="profile.nickname" id="profile-page-nickname">บุ๋มบิ๋ม</strong></div>
           
@@ -260,14 +266,14 @@
               <i class="fa-brands fa-line"></i>
               <div>
                 <div class="info-label">LINE ID / เบอร์ติดต่อ</div>
-                <div class="info-value">0832482556</div>
+                <div class="info-value" data-editable="profile.socials.line" id="profile-page-line">0832482556</div>
               </div>
             </div>
             <div class="contact-item">
               <i class="fa-solid fa-location-dot"></i>
               <div>
                 <div class="info-label">สถาบันการศึกษา</div>
-                <div class="info-value" style="font-size: 0.85rem;">มทร.อีสาน วิทยาเขตขอนแก่น</div>
+                <div class="info-value" data-editable="profile.university" id="profile-page-uni" style="font-size: 0.85rem;">มทร.อีสาน วิทยาเขตขอนแก่น</div>
               </div>
             </div>
           </div>
@@ -393,10 +399,10 @@
     <div class="footer-inner">
       <div class="footer-author-box">
         <h4 class="footer-title">แฟ้มสะสมผลงาน (Portfolio)</h4>
-        <div class="footer-author-name">
+        <div class="footer-author-name" id="footer-author-name">
           จัดทำโดย นางสาวอโรชา บุญเหลือ
         </div>
-        <div class="footer-author-meta">
+        <div class="footer-author-meta" id="footer-author-meta">
           รหัสนักศึกษา 68322110251-2 <br>
           มหาวิทยาลัยเทคโนโลยีราชมงคลอีสาน วิทยาเขตขอนแก่น <br>
           คณะครุศาสตร์อุตสาหกรรม สาขาครุศาสตร์อุตสาหกรรมไฟฟ้า
@@ -417,8 +423,8 @@
       <div>
         <h5 class="footer-links-title">ช่องทางการติดต่อ</h5>
         <ul class="footer-nav-list">
-          <li><i class="fa-solid fa-phone" style="color:var(--primary); margin-right: 0.35rem;"></i> 0832482556</li>
-          <li><i class="fa-solid fa-envelope" style="color:var(--primary); margin-right: 0.35rem;"></i> arochaboonlue2047@gmail.com</li>
+          <li><i class="fa-solid fa-phone" style="color:var(--primary); margin-right: 0.35rem;"></i> <span id="footer-phone">0832482556</span></li>
+          <li><i class="fa-solid fa-envelope" style="color:var(--primary); margin-right: 0.35rem;"></i> <span id="footer-email">arochaboonlue2047@gmail.com</span></li>
           <li><i class="fa-solid fa-circle-info" style="color:var(--primary); margin-right: 0.35rem;"></i> โหมดล็อกอิน: กด <code>Ctrl + L + O</code></li>
         </ul>
       </div>
@@ -510,10 +516,12 @@
     <div class="drawer-nav">
       <button class="drawer-nav-item active" data-pane="pane-theme">ตกแต่งหน้าตา</button>
       <button class="drawer-nav-item" data-pane="pane-profile">ข้อมูลส่วนตัว</button>
+      <button class="drawer-nav-item" data-pane="pane-stats">สถิติ & เกรด</button>
+      <button class="drawer-nav-item" data-pane="pane-skills">ทักษะวิชาชีพ</button>
       <button class="drawer-nav-item" data-pane="pane-edu">การศึกษา</button>
       <button class="drawer-nav-item" data-pane="pane-courses">รายวิชา</button>
       <button class="drawer-nav-item" data-pane="pane-activities">ผลงาน</button>
-      <button class="drawer-nav-item" data-pane="pane-upload">อัปโหลดไฟล์</button>
+      <button class="drawer-nav-item" data-pane="pane-upload">คลังไฟล์ & ลากวาง</button>
       <button class="drawer-nav-item" data-pane="pane-supabase">คลาวด์ Supabase</button>
       <button class="drawer-nav-item" data-pane="pane-backup">สำรอง/กู้คืน</button>
     </div>
@@ -569,30 +577,107 @@
         </div>
       </div>
 
-      <!-- PANE 2: จัดการข้อมูลส่วนตัว -->
+      <!-- PANE 2: จัดการข้อมูลส่วนตัว (แก้ไขได้ทุกจุด) -->
       <div id="pane-profile" class="drawer-pane">
-        <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">แก้ไขข้อมูลส่วนตัว</h4>
+        <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">แก้ไขข้อมูลส่วนตัวครบทุกจุด</h4>
         <form id="form-edit-profile">
           <div class="form-group">
-            <label class="form-label">ชื่อ - สกุล</label>
-            <input type="text" id="edit-profile-name" class="form-input">
+            <label class="form-label">รูปถ่ายโปรไฟล์ (คลิกหรือลากวางไฟล์ภาพที่นี่)</label>
+            <div class="dropzone" id="drawer-avatar-dropzone" style="padding: 1rem; margin-bottom: 0.5rem;">
+              <img id="edit-profile-avatar-preview" src="assets/images/profile_1.jpg" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin: 0 auto 0.5rem; display: block; border: 2px solid var(--primary);">
+              <span style="font-size: 0.75rem; color: var(--text-muted);">คลิกหรือลากไฟล์ภาพมาวางเพื่อเปลี่ยนรูป</span>
+              <input type="file" id="input-drawer-avatar" accept="image/*" style="display: none;">
+            </div>
+            <input type="text" id="edit-profile-avatar" class="form-input" placeholder="หรือวาง URL รูปภาพที่นี่">
           </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">ชื่อ - สกุล</label>
+              <input type="text" id="edit-profile-name" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ชื่อเล่น</label>
+              <input type="text" id="edit-profile-nickname" class="form-input" required>
+            </div>
+          </div>
+
           <div class="form-group">
-            <label class="form-label">ชื่อเล่น</label>
-            <input type="text" id="edit-profile-nickname" class="form-input">
+            <label class="form-label">ตำแหน่ง / บทบาท</label>
+            <input type="text" id="edit-profile-title" class="form-input">
           </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">รหัสนักศึกษา</label>
+              <input type="text" id="edit-profile-studentId" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ป้ายสถานะ (Hero Badge)</label>
+              <input type="text" id="edit-profile-statusBadge" class="form-input">
+            </div>
+          </div>
+
           <div class="form-group">
-            <label class="form-label">รหัสนักศึกษา</label>
-            <input type="text" id="edit-profile-studentId" class="form-input">
+            <label class="form-label">มหาวิทยาลัย</label>
+            <input type="text" id="edit-profile-university" class="form-input">
           </div>
-          <div class="form-group">
-            <label class="form-label">เบอร์โทรศัพท์</label>
-            <input type="text" id="edit-profile-phone" class="form-input">
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">คณะ</label>
+              <input type="text" id="edit-profile-faculty" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">สาขาวิชา</label>
+              <input type="text" id="edit-profile-major" class="form-input">
+            </div>
           </div>
-          <div class="form-group">
-            <label class="form-label">อีเมล</label>
-            <input type="email" id="edit-profile-email" class="form-input">
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">เบอร์โทรศัพท์</label>
+              <input type="text" id="edit-profile-phone" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">อีเมล</label>
+              <input type="email" id="edit-profile-email" class="form-input">
+            </div>
           </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">วัน เดือน ปีเกิด</label>
+              <input type="text" id="edit-profile-birthdate" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">อายุ</label>
+              <input type="text" id="edit-profile-age" class="form-input">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">สัญชาติ</label>
+              <input type="text" id="edit-profile-nationality" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">เชื้อชาติ</label>
+              <input type="text" id="edit-profile-ethnicity" class="form-input">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">LINE ID</label>
+              <input type="text" id="edit-profile-line" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Facebook</label>
+              <input type="text" id="edit-profile-facebook" class="form-input">
+            </div>
+          </div>
+
           <div class="form-group">
             <label class="form-label">คติประจำใจ</label>
             <textarea id="edit-profile-motto" class="form-textarea" rows="2"></textarea>
@@ -601,8 +686,32 @@
             <label class="form-label">ข้อความแนะนำตัว (Bio)</label>
             <textarea id="edit-profile-bio" class="form-textarea" rows="3"></textarea>
           </div>
-          <button type="submit" class="btn-cta btn-cta-primary" style="width: 100%;">บันทึกข้อมูลส่วนตัว</button>
+          <button type="submit" class="btn-cta btn-cta-primary" style="width: 100%;">
+            <i class="fa-solid fa-check"></i> บันทึกข้อมูลส่วนตัวทั้งหมด
+          </button>
         </form>
+      </div>
+
+      <!-- PANE: จัดการสถิติ & เกรดเฉลี่ย (Stats & GPA) -->
+      <div id="pane-stats" class="drawer-pane">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h4 style="font-size: 0.95rem;">สถิติและเกรดเฉลี่ย (Stats & GPA)</h4>
+          <button id="btn-add-stat" class="admin-action-btn btn-primary"><i class="fa-solid fa-plus"></i> เพิ่มสถิติใหม่</button>
+        </div>
+        <div id="drawer-stats-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- PANE: จัดการทักษะความสามารถ (Skills) -->
+      <div id="pane-skills" class="drawer-pane">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h4 style="font-size: 0.95rem;">ทักษะความเชี่ยวชาญ (Skills)</h4>
+          <button id="btn-add-skill" class="admin-action-btn btn-primary"><i class="fa-solid fa-plus"></i> เพิ่มทักษะใหม่</button>
+        </div>
+        <div id="drawer-skills-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <!-- Dynamically populated -->
+        </div>
       </div>
 
       <!-- PANE 3: จัดการการศึกษา -->
@@ -640,43 +749,58 @@
 
       <!-- PANE 6: อัปโหลดไฟล์ทุกประเภท (คลิป, รูป, ฟอนต์, PDF) -->
       <div id="pane-upload" class="drawer-pane">
-        <h4 style="margin-bottom: 0.5rem; font-size: 0.95rem;">อัปโหลดไฟล์ทุกประเภท</h4>
+        <h4 style="margin-bottom: 0.5rem; font-size: 0.95rem;">คลังไฟล์และระบบอัปโหลดลากวาง (Drag & Drop)</h4>
         <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 1rem;">
-          รองรับรูปภาพ (JPG, PNG, GIF), วิดีโอ (MP4, WebM), เอกสาร (PDF), และฟอนต์ (.ttf, .woff, .woff2) เก็บไว้ในเครื่องอัตโนมัติ
+          รองรับรูปภาพ (JPG, PNG, GIF, WEBP), คลิปวิดีโอ (MP4), เอกสาร (PDF), และฟอนต์ (.ttf, .woff, .woff2) เชื่อมต่อคลาวด์ Supabase Storage และเก็บสำรองในเครื่องให้อัตโนมัติ
         </p>
 
-        <div class="dropzone" id="file-dropzone">
+        <!-- Dropzone -->
+        <div class="dropzone drag-target-zone" id="file-dropzone">
           <i class="fa-solid fa-cloud-arrow-up dropzone-icon"></i>
-          <p style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem;">คลิกเพื่อเลือกไฟล์ หรือลากไฟล์มาวางที่นี่</p>
-          <span style="font-size: 0.75rem; color: var(--text-muted);">รูปภาพ / วิดีโอ / เอกสาร PDF / ฟอนต์</span>
+          <p style="font-weight: 700; font-size: 0.92rem; margin-bottom: 0.25rem;">คลิก หรือ ลากไฟล์มาวางที่นี่เพื่ออัปโหลดทันที</p>
+          <span style="font-size: 0.75rem; color: var(--text-muted);">รองรับการลากไฟล์หลายไฟล์พร้อมกัน (Multi-file Drag & Drop)</span>
+          <div id="dropzone-status" style="font-size: 0.8rem; color: var(--primary); font-weight: 600; margin-top: 0.4rem; display: none;"></div>
           <input type="file" id="input-universal-file" multiple style="display: none;">
         </div>
 
-        <div style="margin-top: 1.5rem;">
-          <h5 style="font-size: 0.88rem; margin-bottom: 0.5rem;">รายการไฟล์ที่อัปโหลดไว้ในเครื่อง</h5>
-          <div id="uploaded-files-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
-            <!-- Dynamically populated from IndexedDB -->
+        <!-- Filter & Search Controls -->
+        <div style="margin-top: 1.25rem;">
+          <div style="display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+            <button class="filter-btn active file-cat-filter" data-file-cat="all" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;">ทั้งหมด</button>
+            <button class="filter-btn file-cat-filter" data-file-cat="image" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;">รูปภาพ</button>
+            <button class="filter-btn file-cat-filter" data-file-cat="video" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;">วิดีโอ</button>
+            <button class="filter-btn file-cat-filter" data-file-cat="pdf" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;">เอกสาร PDF</button>
+            <button class="filter-btn file-cat-filter" data-file-cat="font" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;">ฟอนต์</button>
+          </div>
+          <input type="text" id="input-search-files" placeholder="🔍 พิมพ์ค้นหาชื่อไฟล์..." class="form-input" style="font-size: 0.82rem; padding: 0.4rem 0.75rem; margin-bottom: 0.85rem;">
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <h5 style="font-size: 0.88rem; margin: 0;">รายการไฟล์ในคลัง (<span id="uploaded-files-count">0</span>)</h5>
+          </div>
+          <div id="uploaded-files-list" style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 280px; overflow-y: auto;">
+            <!-- Dynamically populated from Storage / Supabase -->
           </div>
         </div>
       </div>
 
-      <!-- PANE 7: คลาวด์ Supabase (Cloud Database) -->
+      <!-- PANE 7: คลาวด์ Supabase (Cloud Database & Realtime) -->
       <div id="pane-supabase" class="drawer-pane">
-        <h4 style="margin-bottom: 0.5rem; font-size: 0.95rem;">เชื่อมต่อฐานข้อมูลคลาวด์ Supabase</h4>
+        <h4 style="margin-bottom: 0.5rem; font-size: 0.95rem;">⚡ เชื่อมต่อฐานข้อมูลคลาวด์ Supabase (Realtime)</h4>
         <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 1rem;">
-          เชื่อมต่อกับโปรเจกต์ Supabase เพื่อซิงก์ข้อมูลเว็บไซต์และรูปภาพขึ้นสู่คลาวด์แบบ Realtime เมื่อเข้าดูเว็บจากเครื่องอื่นหรือผ่าน Vercel ข้อมูลจะอัปเดตตรงกันทันที
+          เมื่อเปิดใช้งาน ข้อมูลจะซิงก์แบบ Realtime สดทุกวินาที ไม่ดึงข้อมูลเก่า และอัปเดตตรงกันทุกอุปกรณ์ทันทีที่แก้ไข
         </p>
 
         <div style="background: var(--bg-page); border: 1px solid var(--border-subtle); padding: 0.85rem; border-radius: var(--radius-sm); margin-bottom: 1.25rem;">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-            <span style="font-size: 0.85rem; font-weight: 600;">สถานะการเชื่อมต่อ:</span>
+            <span style="font-size: 0.85rem; font-weight: 600;">สถานะ Realtime:</span>
             <span id="supabase-status-badge" style="font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 999px; background: #e5e7eb; color: #4b5563;">
               ⚪ ยังไม่ได้เชื่อมต่อ
             </span>
           </div>
+          <div id="supabase-last-sync-time" style="font-size: 0.75rem; color: var(--text-muted);">ซิงก์ข้อมูลล่าสุด: ยังไม่มีประวัติ</div>
         </div>
 
-        <form id="form-supabase-config" style="margin-bottom: 1.5rem;">
+        <form id="form-supabase-config" style="margin-bottom: 1.25rem;">
           <div class="form-group">
             <label class="form-label">Supabase Project URL</label>
             <input type="url" id="input-supabase-url" class="form-input" placeholder="https://xyzcompany.supabase.co" required>
@@ -686,17 +810,22 @@
             <input type="text" id="input-supabase-anon" class="form-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." required>
           </div>
           <button type="submit" class="btn-cta btn-cta-primary" style="width: 100%;">
-            <i class="fa-solid fa-cloud-arrow-up"></i> บันทึกและทดสอบการเชื่อมต่อ
+            <i class="fa-solid fa-cloud-arrow-up"></i> บันทึกและเชื่อมต่อ Realtime ทันที
           </button>
         </form>
 
-        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
-          <button id="btn-supabase-push" class="admin-action-btn btn-primary" style="flex: 1; justify-content: center; padding: 0.6rem;">
-            <i class="fa-solid fa-arrow-up-from-bracket"></i> อัปโหลดขึ้นคลาวด์
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem;">
+          <button id="btn-supabase-force-pull" class="admin-action-btn btn-light" style="justify-content: center; padding: 0.6rem; border-color: var(--primary); color: var(--primary); font-weight: 600;">
+            <i class="fa-solid fa-arrows-rotate"></i> ⚡ ดึงข้อมูลสดจาก Cloud ทันที (ไม่ดึงข้อมูลเก่า / Bypass Cache)
           </button>
-          <button id="btn-supabase-pull" class="admin-action-btn btn-light" style="flex: 1; justify-content: center; padding: 0.6rem;">
-            <i class="fa-solid fa-arrow-down-to-bracket"></i> ดึงข้อมูลจากคลาวด์
-          </button>
+          <div style="display: flex; gap: 0.5rem;">
+            <button id="btn-supabase-push" class="admin-action-btn btn-primary" style="flex: 1; justify-content: center; padding: 0.6rem;">
+              <i class="fa-solid fa-arrow-up-from-bracket"></i> อัปโหลดขึ้นคลาวด์
+            </button>
+            <button id="btn-supabase-pull" class="admin-action-btn btn-light" style="flex: 1; justify-content: center; padding: 0.6rem;">
+              <i class="fa-solid fa-arrow-down-to-bracket"></i> ดึงจากคลาวด์
+            </button>
+          </div>
         </div>
 
         <div style="border-top: 1px dashed var(--border-subtle); padding-top: 1rem;">
@@ -734,6 +863,37 @@
       </div>
     </div>
   </div>
+
+  <!-- Universal Item Modal (For Full CRUD on Education, Courses, Activities, Stats, Skills) -->
+  <div id="modal-universal-item" class="modal-universal">
+    <div class="modal-universal-card">
+      <div class="modal-universal-header">
+        <div class="modal-universal-title" id="universal-modal-title">
+          <i class="fa-solid fa-pen-to-square" style="color: var(--primary);"></i>
+          <span id="universal-modal-title-text">แก้ไขข้อมูล</span>
+        </div>
+        <button class="modal-close-btn" id="btn-close-universal-modal" type="button">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="form-universal-item">
+        <div id="universal-modal-body">
+          <!-- Dynamic form fields rendered by app.js -->
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1.5rem; border-top: 1px solid var(--border-subtle); padding-top: 1rem;">
+          <button type="button" class="admin-action-btn btn-light" id="btn-cancel-universal-modal">ยกเลิก</button>
+          <button type="submit" class="admin-action-btn btn-primary" id="btn-save-universal-modal">
+            <i class="fa-solid fa-check"></i> บันทึกข้อมูล
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="portfolio-toast-container"></div>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

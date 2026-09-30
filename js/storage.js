@@ -55,10 +55,22 @@ class StorageManager {
   }
 
   // Save portfolio structured data
-  saveData(data) {
+  saveData(data, syncToCloud = true) {
     try {
+      if (!data._metadata) data._metadata = {};
+      data._metadata.updatedAt = new Date().toISOString();
+      data._metadata.version = "2.0";
+
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       window.dispatchEvent(new CustomEvent("portfolio-data-changed", { detail: data }));
+
+      // Automatically sync to Supabase if connected
+      if (syncToCloud && window.portfolioSupabase && typeof portfolioSupabase.pushData === "function" && portfolioSupabase.isConnected()) {
+        portfolioSupabase.pushData(data).catch(err => {
+          console.warn("Auto-sync to Supabase warning:", err);
+        });
+      }
+
       return true;
     } catch (err) {
       console.error("Error saving localStorage:", err);
