@@ -1539,6 +1539,64 @@ body.dark-mode .course-code {
   color: var(--primary);
 }
 
+/* Explicit Login Buttons */
+.footer-login-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1.05rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--primary) 0%, #db2777 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 14px rgba(236, 72, 153, 0.35);
+  font-family: inherit;
+}
+
+.footer-login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(236, 72, 153, 0.5);
+  filter: brightness(1.1);
+}
+
+.footer-login-btn.logged-in {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+}
+
+.nav-login-btn {
+  background: rgba(236, 72, 153, 0.12) !important;
+  color: var(--primary) !important;
+  border: 1px solid rgba(236, 72, 153, 0.35) !important;
+  transition: all var(--transition-fast);
+}
+
+.nav-login-btn:hover {
+  background: var(--primary) !important;
+  color: #ffffff !important;
+  border-color: var(--primary) !important;
+  transform: scale(1.05);
+}
+
+.nav-login-btn.logged-in {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #10b981 !important;
+  border-color: rgba(16, 185, 129, 0.4) !important;
+}
+
+.nav-tabs.mobile-open .mobile-only-login {
+  display: flex !important;
+  border-top: 1px solid var(--border-color);
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  color: var(--primary) !important;
+  font-weight: 600;
+}
+
 /* ==========================================================================
    Modals & Drawers
    ========================================================================== */

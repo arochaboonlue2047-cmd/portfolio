@@ -88,10 +88,16 @@
         <button class="tab-btn" data-tab="activities">
           <i class="fa-solid fa-trophy"></i> <span>กิจกรรมและผลงาน</span>
         </button>
+        <button id="btn-mobile-login" class="tab-btn mobile-only-login login-btn-trigger" style="display: none; color: var(--primary);" title="เข้าสู่ระบบผู้ดูแล (Admin Login)">
+          <i class="fa-solid fa-right-to-bracket"></i> <span>เข้าสู่ระบบ (Login)</span>
+        </button>
       </nav>
 
-      <!-- Utility Actions (Theme toggle, Sound toggle, Mobile toggle) -->
+      <!-- Utility Actions (Theme toggle, Sound toggle, Mobile toggle, Login) -->
       <div class="nav-actions">
+        <button id="btn-nav-login" class="action-btn nav-login-btn login-btn-trigger" title="เข้าสู่ระบบผู้ดูแล (Admin Login)">
+          <i class="fa-solid fa-lock"></i>
+        </button>
         <button id="btn-toggle-sound" class="action-btn" title="เปิด/ปิด เสียงเอฟเฟกต์ Pop">
           <i class="fa-solid fa-volume-high"></i>
         </button>
@@ -426,6 +432,12 @@
           <li><i class="fa-solid fa-phone" style="color:var(--primary); margin-right: 0.35rem;"></i> <span id="footer-phone">0832482556</span></li>
           <li><i class="fa-solid fa-envelope" style="color:var(--primary); margin-right: 0.35rem;"></i> <span id="footer-email">arochaboonlue2047@gmail.com</span></li>
           <li><i class="fa-solid fa-circle-info" style="color:var(--primary); margin-right: 0.35rem;"></i> โหมดล็อกอิน: กด <code>Ctrl + L + O</code></li>
+          <li style="margin-top: 0.65rem;">
+            <button id="btn-footer-login" class="footer-login-btn login-btn-trigger" title="คลิกเพื่อเข้าสู่ระบบผู้ดูแล (Admin Login)">
+              <i class="fa-solid fa-right-to-bracket"></i>
+              <span>เข้าสู่ระบบ (Login)</span>
+            </button>
+          </li>
         </ul>
       </div>
     </div>

@@ -1687,6 +1687,59 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (footerTrigger) footerTrigger.addEventListener("click", openLoginModal);
 
+    function updateLoginButtonsUI(loggedIn) {
+      const navBtn = document.getElementById("btn-nav-login");
+      const footerBtn = document.getElementById("btn-footer-login");
+      const mobileBtn = document.getElementById("btn-mobile-login");
+
+      if (loggedIn) {
+        if (navBtn) {
+          navBtn.classList.add("logged-in");
+          navBtn.title = "แผงควบคุมผู้ดูแล (Admin Bar เปิดอยู่)";
+          navBtn.innerHTML = `<i class="fa-solid fa-user-check"></i>`;
+        }
+        if (footerBtn) {
+          footerBtn.classList.add("logged-in");
+          footerBtn.title = "คุณเข้าสู่ระบบผู้ดูแลแล้ว (คลิกเพื่อเปิด/ปิด แผงควบคุม)";
+          footerBtn.innerHTML = `<i class="fa-solid fa-user-check"></i> <span>ผู้ดูแลระบบ (Admin)</span>`;
+        }
+        if (mobileBtn) {
+          mobileBtn.innerHTML = `<i class="fa-solid fa-user-check"></i> <span>ผู้ดูแลระบบ (Admin)</span>`;
+        }
+      } else {
+        if (navBtn) {
+          navBtn.classList.remove("logged-in");
+          navBtn.title = "เข้าสู่ระบบผู้ดูแล (Admin Login)";
+          navBtn.innerHTML = `<i class="fa-solid fa-lock"></i>`;
+        }
+        if (footerBtn) {
+          footerBtn.classList.remove("logged-in");
+          footerBtn.title = "คลิกเพื่อเข้าสู่ระบบผู้ดูแล (Admin Login)";
+          footerBtn.innerHTML = `<i class="fa-solid fa-right-to-bracket"></i> <span>เข้าสู่ระบบ (Login)</span>`;
+        }
+        if (mobileBtn) {
+          mobileBtn.innerHTML = `<i class="fa-solid fa-right-to-bracket"></i> <span>เข้าสู่ระบบ (Login)</span>`;
+        }
+      }
+    }
+
+    function handleLoginButtonClick(e) {
+      if (e) e.preventDefault();
+      if (isLoggedIn) {
+        if (adminBar) {
+          adminBar.classList.toggle("active");
+          portfolioAudio.playPop();
+          showToast(adminBar.classList.contains("active") ? "เปิดแถบเครื่องมือแอดมินแล้ว" : "ซ่อนแถบเครื่องมือแอดมินแล้ว", "info");
+        }
+      } else {
+        openLoginModal();
+      }
+    }
+
+    document.querySelectorAll(".login-btn-trigger, #btn-footer-login, #btn-nav-login, #btn-mobile-login").forEach(btn => {
+      btn.addEventListener("click", handleLoginButtonClick);
+    });
+
     document.querySelectorAll("[data-close-modal='modal-login']").forEach(btn => {
       btn.addEventListener("click", closeLoginModal);
     });
@@ -1702,6 +1755,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           sessionStorage.setItem("bumbim_admin_logged_in", "true");
           closeLoginModal();
           if (adminBar) adminBar.classList.add("active");
+          updateLoginButtonsUI(true);
           portfolioAudio.playChime();
           showToast("เข้าสู่ระบบแอดมินสำเร็จ! คุณบุ๋มบิ๋มสามารถแก้ไขทุกจุดได้ทันทีค่ะ", "success");
         } else {
@@ -1714,6 +1768,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (isLoggedIn && adminBar) {
       adminBar.classList.add("active");
     }
+    updateLoginButtonsUI(isLoggedIn);
 
     const btnLogout = document.getElementById("btn-admin-logout");
     if (btnLogout) {
@@ -1721,6 +1776,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         isLoggedIn = false;
         sessionStorage.removeItem("bumbim_admin_logged_in");
         if (adminBar) adminBar.classList.remove("active");
+        updateLoginButtonsUI(false);
         exitQuickEdit();
         closeDrawer();
         portfolioAudio.playPop();
