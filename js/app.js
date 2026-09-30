@@ -878,11 +878,85 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     }
 
-    const btnResetDefault = document.getElementById("btn-reset-default");
-    if (btnResetDefault) {
-      btnResetDefault.addEventListener("click", () => {
-        if (confirm("คำเตือน: คุณต้องการล้างข้อมูลทั้งหมดและคืนค่าเริ่มต้นใช่หรือไม่?")) {
-          portfolioStorage.resetToDefault();
+    // Supabase Cloud Handlers
+    const formSupabase = document.getElementById("form-supabase-config");
+    const inputSupaUrl = document.getElementById("input-supabase-url");
+    const inputSupaAnon = document.getElementById("input-supabase-anon");
+    const supaBadge = document.getElementById("supabase-status-badge");
+    const btnSupaPush = document.getElementById("btn-supabase-push");
+    const btnSupaPull = document.getElementById("btn-supabase-pull");
+
+    function updateSupabaseBadge() {
+      if (!supaBadge) return;
+      if (window.portfolioSupabase && portfolioSupabase.isConnected()) {
+        supaBadge.textContent = "🟢 เชื่อมต่อคลาวด์แล้ว";
+        supaBadge.style.background = "#dcfce7";
+        supaBadge.style.color = "#15803d";
+      } else {
+        supaBadge.textContent = "⚪ ยังไม่ได้เชื่อมต่อ";
+        supaBadge.style.background = "#e5e7eb";
+        supaBadge.style.color = "#4b5563";
+      }
+    }
+
+    if (window.portfolioSupabase) {
+      if (inputSupaUrl) inputSupaUrl.value = portfolioSupabase.config.url || "";
+      if (inputSupaAnon) inputSupaAnon.value = portfolioSupabase.config.anonKey || "";
+      updateSupabaseBadge();
+    }
+
+    if (formSupabase) {
+      formSupabase.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const url = inputSupaUrl.value.trim();
+        const anon = inputSupaAnon.value.trim();
+        portfolioSupabase.saveConfig(url, anon, true);
+        updateSupabaseBadge();
+        portfolioAudio.playChime();
+        alert("บันทึกการตั้งค่า Supabase เรียบร้อยแล้วค่ะ!");
+      });
+    }
+
+    if (btnSupaPush) {
+      btnSupaPush.addEventListener("click", async () => {
+        if (!portfolioSupabase.isConnected()) {
+          alert("กรุณากรอก URL และ Anon Key ของ Supabase ให้เรียบร้อยก่อนค่ะ");
+          return;
+        }
+        btnSupaPush.disabled = true;
+        btnSupaPush.textContent = "กำลังอัปโหลด...";
+        const res = await portfolioSupabase.pushData(currentData);
+        btnSupaPush.disabled = false;
+        btnSupaPush.innerHTML = `<i class="fa-solid fa-arrow-up-from-bracket"></i> อัปโหลดขึ้นคลาวด์`;
+        if (res.success) {
+          portfolioAudio.playChime();
+          alert("อัปโหลดข้อมูลและผลงานขึ้น Supabase สำเร็จเรียบร้อยแล้วค่ะ!");
+        } else {
+          alert("เกิดข้อผิดพลาด: " + res.error);
+        }
+      });
+    }
+
+    if (btnSupaPull) {
+      btnSupaPull.addEventListener("click", async () => {
+        if (!portfolioSupabase.isConnected()) {
+          alert("กรุณากรอก URL และ Anon Key ของ Supabase ให้เรียบร้อยก่อนค่ะ");
+          return;
+        }
+        btnSupaPull.disabled = true;
+        btnSupaPull.textContent = "กำลังดึงข้อมูล...";
+        const res = await portfolioSupabase.pullData();
+        btnSupaPull.disabled = false;
+        btnSupaPull.innerHTML = `<i class="fa-solid fa-arrow-down-to-bracket"></i> ดึงข้อมูลจากคลาวด์`;
+        if (res.success && res.data) {
+          currentData = res.data;
+          portfolioStorage.saveData(currentData);
+          renderAll(currentData);
+          applyThemeSettings(currentData.themeSettings);
+          portfolioAudio.playChime();
+          alert("ดึงข้อมูลล่าสุดจาก Supabase สำเร็จ และอัปเดตหน้าเว็บเรียบร้อยแล้วค่ะ!");
+        } else {
+          alert("เกิดข้อผิดพลาด: " + res.error);
         }
       });
     }
